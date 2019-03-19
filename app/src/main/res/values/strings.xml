@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">apogee_vendor</string>
+    <string name="status0">Pending</string>
+    <string name="status1">Accepted</string>
+    <string name="status2">Ready</string>
+    <string name="status3">Complete</string>
+    <string name="status4">Declined</string>
+</resources>
