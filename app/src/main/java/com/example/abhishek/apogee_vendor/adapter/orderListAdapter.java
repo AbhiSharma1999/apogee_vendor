@@ -1,6 +1,7 @@
 package com.example.abhishek.apogee_vendor.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -84,6 +85,7 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent=new Intent();
 
             }
         });

@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            //Handel Error
+            //Handle Error
         }
 
     }
