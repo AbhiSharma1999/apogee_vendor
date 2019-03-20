@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(!vendorId.equals(" "))
         {
-            database.getReference().child("vendors").child("vendor-".concat(vendorId)).child("orders").addChildEventListener(new ChildEventListener() {
+            database.getReference().child("vendors").child("vendor -".concat(" 56")).child("orders").addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
