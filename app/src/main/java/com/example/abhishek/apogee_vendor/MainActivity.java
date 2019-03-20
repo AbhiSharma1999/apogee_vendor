@@ -1,6 +1,7 @@
 package com.example.abhishek.apogee_vendor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -38,7 +39,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SharedPreferences sp = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
         int vendor = sp.getInt("ID" , 0);
+        String JWT = sp.getString("JWT",null);
+        if(JWT==null)
+            startActivity(new Intent(this,LoginActivity.class));
         String vendorId = ""+vendor;
+
 
 
 

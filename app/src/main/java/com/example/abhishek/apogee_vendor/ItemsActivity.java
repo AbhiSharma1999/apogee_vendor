@@ -39,44 +39,54 @@ public class ItemsActivity extends AppCompatActivity {
         Intent intent=getIntent();
         String orderId=intent.getStringExtra("orderId");
         SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
-        String vid=prefs.getString("ID"," ");
+        final String vid=prefs.getString("ID"," ");
         database= FirebaseDatabase.getInstance().getReference("vendors");
-       database.child("vendors").child("vendor-".concat(vid)).child("orders").child("order-".concat(orderId))
-               .child("items").addChildEventListener(new ChildEventListener() {
-           @Override
-           public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+       if(!orderId.equals("")) {
 
-           }
-
-           @Override
-           public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-               Log.d("check",dataSnapshot.toString());
-               for(DataSnapshot ds:dataSnapshot.getChildren()){
-                   Log.d("check",ds.toString());
-                   obj.setItemId(ds.getKey());
-                   obj.setItemVal(ds.getValue().toString());
-                   Log.d("check",obj.toString());
-                   nlist.add(obj);
+           database.child("vendors").child("vendor-".concat(vid)).child("orders").child(orderId)
+                   .child("items").addChildEventListener(new ChildEventListener() {
+               @Override
+               public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                }
-               adapter.notifyDataSetChanged();
-           }
 
-           @Override
-           public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+               @Override
+               public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                   Log.d("check", dataSnapshot.toString());
+                   for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                       int key = Integer.parseInt(ds.getKey());
+                       String item_name = ds.child("vendors").child("vendor-".concat(vid)).child("menu").child(""+key).child("name").getValue().toString();
+                       obj.setItemName(item_name);
+                       obj.setItemId(ds.getKey());
 
-           }
+                       obj.setItemVal(ds.getValue().toString());
+                       Log.d("check", obj.toString());
+                       nlist.add(obj);
 
-           @Override
-           public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                   }
+                   adapter.notifyDataSetChanged();
+               }
 
-           }
+               @Override
+               public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-           @Override
-           public void onCancelled(@NonNull DatabaseError databaseError) {
+               }
 
-           }
-       });
+               @Override
+               public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+               }
+
+               @Override
+               public void onCancelled(@NonNull DatabaseError databaseError) {
+
+               }
+           });
+       }
+       else
+       {
+           //handle error
+       }
 
     }
 }

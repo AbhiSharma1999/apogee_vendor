@@ -3,6 +3,16 @@ package com.example.abhishek.apogee_vendor.model;
 public class items_model {
 
     String itemId;
+    String itemVal , itemName;
+
+    public String getItemName()
+    {
+        return itemName;
+    }
+    public void setItemName(String itemName)
+    {
+        this.itemName = itemName;
+    }
 
     public String getItemId() {
         return itemId;
@@ -20,5 +30,5 @@ public class items_model {
         this.itemVal = itemVal;
     }
 
-    String itemVal;
+
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.abhishek.apogee_vendor.ItemsActivity;
 import com.example.abhishek.apogee_vendor.R;
 import com.example.abhishek.apogee_vendor.model.orders_model;
 
@@ -40,7 +41,7 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.user_id.setText(ordersModelList.get(position).getUser_id()+"");
         holder.timestamp.setText(ordersModelList.get(position).getTimestamp());
@@ -85,7 +86,9 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent();
+                Intent intent = new Intent(holder.mView.getContext() , ItemsActivity.class);
+                intent.putExtra("orderId",ordersModelList.get(position).getOrder_id());
+                holder.mView.getContext().startActivity(intent);
 
             }
         });
