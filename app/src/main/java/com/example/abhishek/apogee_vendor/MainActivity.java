@@ -55,14 +55,14 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+
                 @Override
                 public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    finished_declined_list.clear();
+                    pending_accepted_list.clear();
+                    ready_list.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                        finished_declined_list.clear();
-                        pending_accepted_list.clear();
-                        ready_list.clear();
-
 
                         if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 3 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 4) {
                             finished_declined_list.add(new orders_model(snapshot.getKey(),
