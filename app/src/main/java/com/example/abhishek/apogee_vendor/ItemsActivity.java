@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class ItemsActivity extends AppCompatActivity {
      private DatabaseReference database;
-     private items_model obj=new items_model();
+
      private ArrayList<items_model> nlist=new ArrayList<>();
      RecyclerView recyclerView;
      itemListAdapter adapter;
@@ -43,7 +43,7 @@ public class ItemsActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
         String vid=prefs.getString("ID"," ");
         database= FirebaseDatabase.getInstance().getReference();
-       database.child("vendors").child("vendor-".concat(vid)).child("orders").child("order-".concat(orderId))
+       database.child("vendors").child("vendor - ".concat(vid)).child("orders").child("order - ".concat(orderId))
                .child("items").addChildEventListener(new ChildEventListener() {
            @Override
            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -54,6 +54,7 @@ public class ItemsActivity extends AppCompatActivity {
            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                Log.d("check",dataSnapshot.toString());
                for(DataSnapshot ds:dataSnapshot.getChildren()){
+                  items_model obj=new items_model();
                    Log.d("check",ds.toString());
                    obj.setItemId(ds.getKey());
                    obj.setItemVal(ds.getValue().toString());

@@ -24,7 +24,7 @@ public class MenuActivity extends AppCompatActivity {
     menuAdapter adapter;
     ArrayList<menu_model> menulist=new ArrayList<>();
     DatabaseReference mdata;
-    menu_model menu=new menu_model();
+
     private static int i=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,21 +36,21 @@ public class MenuActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
         String vid=prefs.getString("ID"," ");
-       mdata= FirebaseDatabase.getInstance().getReference("vendors/vendor- ".concat("56").concat("/menu"));
-       mdata.addValueEventListener(valueEventListener);
+       mdata= FirebaseDatabase.getInstance().getReference("vendors/vendor - ".concat("56").concat("/menu"));
+       mdata.addListenerForSingleValueEvent(valueEventListener);
     }
     ValueEventListener valueEventListener=new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            Log.d("check", String.valueOf(dataSnapshot.getChildrenCount()));
             for(DataSnapshot ds:dataSnapshot.getChildren()){
+                menu_model menu=new menu_model();
                 Log.d("check",ds.toString());
-                menu.setMenuname(ds.child("name").getValue().toString());
-                menu.setPrice(ds.child("price").getValue().toString());
-                Log.d("check",menu.toString());
+                menu.setMenuname(ds.child(ds.getKey()).getValue(menu_model.class).getMenuname());
+                menu.setPrice(ds.child(ds.getKey()).getValue(menu_model.class).getPrice());
+                Log.d("check",menu.getMenuname());
+                Log.d("check",menu.getPrice());
                 menulist.add(menu);
                 Log.d("check",menulist.toString());
-                i++;
             }
             adapter.notifyDataSetChanged();
         }
