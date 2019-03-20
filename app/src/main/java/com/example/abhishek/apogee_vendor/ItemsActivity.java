@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -35,12 +36,13 @@ public class ItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_items);
         recyclerView=findViewById(R.id.itemsRecycler);
         adapter=new itemListAdapter(this,nlist);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         Intent intent=getIntent();
         String orderId=intent.getStringExtra("orderId");
         SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
         String vid=prefs.getString("ID"," ");
-        database= FirebaseDatabase.getInstance().getReference("vendors");
+        database= FirebaseDatabase.getInstance().getReference();
        database.child("vendors").child("vendor-".concat(vid)).child("orders").child("order-".concat(orderId))
                .child("items").addChildEventListener(new ChildEventListener() {
            @Override
