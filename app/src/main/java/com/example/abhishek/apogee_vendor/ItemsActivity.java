@@ -187,8 +187,6 @@ public class ItemsActivity extends AppCompatActivity {
                     advance_post responselogin =new advance_post();
                     String displayMessage = responselogin.getDisplayMessage();
                     Toast.makeText(ItemsActivity.this,displayMessage,Toast.LENGTH_SHORT).show();
-                   if(response.code()==200)
-                   {
                     if(status==0)
                     {
                         bAccept.setVisibility(View.GONE);
@@ -206,7 +204,12 @@ public class ItemsActivity extends AppCompatActivity {
                         bAccept.setVisibility(View.GONE);
                         bDecline.setVisibility(View.GONE);
                     }
-                }}
+                }
+                else
+                {
+                    bDecline.setClickable(true);
+                    Toast.makeText(ItemsActivity.this,"Not successful",Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -232,11 +235,14 @@ public class ItemsActivity extends AppCompatActivity {
                     advance_post responselogin =new advance_post();
                     String displayMessage = responselogin.getDisplayMessage();
                     Toast.makeText(ItemsActivity.this,displayMessage,Toast.LENGTH_SHORT).show();
-                    if(response.code()==200)
-                    {
-                        bAccept.setVisibility(View.GONE);
-                        bDecline.setVisibility(View.GONE);
-                    }
+                    bAccept.setVisibility(View.GONE);
+                    bDecline.setVisibility(View.GONE);
+
+                }
+                else
+                {
+                    bAccept.setClickable(true);
+                    Toast.makeText(ItemsActivity.this,"Not successful",Toast.LENGTH_SHORT).show();
                 }
             }
 
