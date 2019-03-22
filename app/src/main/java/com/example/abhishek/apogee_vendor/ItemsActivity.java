@@ -208,7 +208,7 @@ public class ItemsActivity extends AppCompatActivity {
                 else
                 {
                     bDecline.setClickable(true);
-                    Toast.makeText(ItemsActivity.this,"Not successful",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ItemsActivity.this,"Not successful"+response.code(),Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -242,7 +242,7 @@ public class ItemsActivity extends AppCompatActivity {
                 else
                 {
                     bAccept.setClickable(true);
-                    Toast.makeText(ItemsActivity.this,"Not successful",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ItemsActivity.this,"Not successful"+response.code(),Toast.LENGTH_SHORT).show();
                 }
             }
 
