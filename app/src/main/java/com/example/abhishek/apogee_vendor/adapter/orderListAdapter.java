@@ -48,31 +48,31 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
         holder.order_id.setText(ordersModelList.get(position).getOrder_id());
 
 
-        if((holder.status.getText()+"").equals("0"))
+        if((ordersModelList.get(position).getStatus()+"").equals("0"))
         {
             holder.status.setText(R.string.status0);
             holder.status.setTextColor(Color.parseColor("#FF0000"));
         }
 
-        if((holder.status.getText()+"").equals("1"))
+        if((ordersModelList.get(position).getStatus()+"").equals("1"))
         {
             holder.status.setText(R.string.status1);
             holder.status.setTextColor(Color.parseColor("##00800"));
         }
 
-        if((holder.status.getText()+"").equals("2"))
+        if((ordersModelList.get(position).getStatus()+"").equals("2"))
         {
             holder.status.setText(R.string.status2);
             holder.status.setTextColor(Color.parseColor("#008000"));
         }
 
-        if((holder.status.getText()+"").equals("3"))
+        if((ordersModelList.get(position).getStatus()+"").equals("3"))
         {
             holder.status.setText(R.string.status3);
             holder.status.setTextColor(Color.parseColor("#008000"));
         }
 
-        if((holder.status.getText()+"").equals("4"))
+        if((ordersModelList.get(position).getStatus()+"").equals("4"))
         {
             holder.status.setText(R.string.status4);
             holder.status.setTextColor(Color.parseColor("#FF0000"));
@@ -88,6 +88,7 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
             public void onClick(View view) {
                 Intent intent = new Intent(holder.mView.getContext() , ItemsActivity.class);
                 intent.putExtra("orderId",ordersModelList.get(position).getOrder_id());
+                intent.putExtra("status",ordersModelList.get(position).getStatus());
                 holder.mView.getContext().startActivity(intent);
 
             }

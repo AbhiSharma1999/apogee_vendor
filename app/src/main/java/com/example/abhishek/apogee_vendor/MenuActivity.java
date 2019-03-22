@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Button;
 
 import com.example.abhishek.apogee_vendor.adapter.menuAdapter;
 import com.example.abhishek.apogee_vendor.model.menu_model;
@@ -24,19 +25,22 @@ public class MenuActivity extends AppCompatActivity {
     menuAdapter adapter;
     ArrayList<menu_model> menulist=new ArrayList<>();
     DatabaseReference mdata;
+    Button item_switch;
 
     private static int i=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        item_switch = (Button)findViewById(R.id.switch1);
         recyclerView=findViewById(R.id.menuRecycler);
         adapter=new menuAdapter(menulist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
         String vid=prefs.getString("ID"," ");
-       mdata= FirebaseDatabase.getInstance().getReference("vendors/vendor - ".concat("56").concat("/menu"));
+       mdata= FirebaseDatabase.getInstance().getReference("vendors/vendor - ".concat(vid).concat("/menu"));
        mdata.addListenerForSingleValueEvent(valueEventListener);
     }
     ValueEventListener valueEventListener=new ValueEventListener() {
@@ -44,13 +48,9 @@ public class MenuActivity extends AppCompatActivity {
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             for(DataSnapshot ds:dataSnapshot.getChildren()){
                 menu_model menu=new menu_model();
-                Log.d("check",ds.toString());
                 menu.setMenuname(ds.child(ds.getKey()).getValue(menu_model.class).getMenuname());
                 menu.setPrice(ds.child(ds.getKey()).getValue(menu_model.class).getPrice());
-                Log.d("check",menu.getMenuname());
-                Log.d("check",menu.getPrice());
                 menulist.add(menu);
-                Log.d("check",menulist.toString());
             }
             adapter.notifyDataSetChanged();
         }

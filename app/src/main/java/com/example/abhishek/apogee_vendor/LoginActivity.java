@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.abhishek.apogee_vendor.model.login_post;
 import com.example.abhishek.apogee_vendor.remote.APIService;
@@ -41,8 +42,13 @@ public class LoginActivity extends AppCompatActivity {
                 String username = et_username.getText().toString().trim();
                 String password = et_password.getText().toString().trim();
                 String reg_token = "";
-                sendPOST(username,password,reg_token);
-
+                if(username.equals("")||password.equals(""))
+                {
+                    Toast.makeText(LoginActivity.this , "username and password cand be left blank",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    sendPOST(username, password, reg_token);
+                }
             }
 
         });
