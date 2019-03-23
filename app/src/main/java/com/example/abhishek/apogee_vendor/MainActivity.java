@@ -40,8 +40,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sp = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
         int vendor = sp.getInt("ID" , 0);
         String JWT = sp.getString("JWT",null);
-        if(JWT==null)
-            startActivity(new Intent(this,LoginActivity.class));
+        if(JWT==null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
         String vendorId = ""+vendor;
 
 
