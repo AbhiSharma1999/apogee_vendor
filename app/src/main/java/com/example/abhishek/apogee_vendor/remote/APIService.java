@@ -21,21 +21,18 @@ public interface APIService {
    // SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
    // String JWT = "JWT ".concat(prefs.getString("JWT",""));
 
-    @POST("/auth")
-    @Headers("Content-Type:application/json" +
-            "X-Wallet-Token:samp1e_Token")
+    @POST("auth")
+    @Headers({"Content-Type : application/json","X-Wallet-Token:samp1e_Token"})
     Call<login_post> savelogin_post(@Field("username")String username,
                                     @Field("password")String password,
                                     @Field("reg_token")String reg_token);
 
-    @POST("/advance")
-    @Headers("Content-Type:application/json" +
-            "X-Wallet-Token:samp1e_Token")
-    Call<advance_post> saveadvance_post(@Field("order_id")int order_id , @Header("Authorization")String JWT);
+    @POST("advance")
+    @Headers({"Content-Type : application/json","X-Wallet-Token:samp1e_Token"})
+    Call<advance_post> saveadvance_post(@Field("order_id")int order_id , @Header("Authorization")String JWT );
 
-    @POST("/decline")
-    @Headers("Content-Type:application/json" +
-            "X-Wallet-Token:samp1e_Token")
+    @POST("decline")
+    @Headers({"Content-Type : application/json","X-Wallet-Token : samp1e_Token"} )
     Call<decline_post> savedecline_post(@Field("order_id")int order_id , @Header("Authorization")String JWT);
 
 }
