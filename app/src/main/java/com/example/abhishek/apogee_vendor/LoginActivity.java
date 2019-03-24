@@ -40,11 +40,10 @@ public class LoginActivity extends AppCompatActivity {
         et_username = (EditText)findViewById(R.id.username);
         String username = et_username.getText().toString().trim();
         String password = et_password.getText().toString().trim();
-        
 
-        final login_request_body request_body = new login_request_body(username,password,"");
-        Log.d("username",request_body.getUsername());
-        Log.d("password",request_body.getPassword());
+
+
+
 
 
         mAPIService = ApiUtils.getAPIService();
@@ -54,14 +53,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String username = et_username.getText().toString().trim();
                 String password = et_password.getText().toString().trim();
+                final login_request_body request_body = new login_request_body(username,password,"");
                 if(username.equals("")||password.equals(""))
                 {
                     Toast.makeText(LoginActivity.this , "username and password cannot be left blank",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     sendPOST(request_body);
-                    Log.d("username",request_body.getUsername());
-                    Log.d("password",request_body.getPassword());
 
                 }
             }
@@ -82,11 +80,14 @@ public class LoginActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     login_post responselogin = new login_post();
                     String JWT = responselogin.getJWT();
-                    int userID = responselogin.getUserId();
+                    int userID = 0;
+                    if(responselogin.getUserId()!=0) {
+                        userID = responselogin.getUserId();
+                    }
                     Log.d("post submitted to API", ""+response.body().toString());
 
 
-                    SharedPreferences sp = getSharedPreferences("Data",MODE_PRIVATE);
+                    SharedPreferences sp = LoginActivity.this.getSharedPreferences("Data",MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("JWT",JWT);
                     editor.putInt("ID",userID);

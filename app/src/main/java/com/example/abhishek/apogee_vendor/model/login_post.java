@@ -20,7 +20,7 @@ public class login_post {
     private String name;
     @SerializedName("user_id")
     //@Expose
-    private Integer userId;
+    private int userId;
     @SerializedName("JWT")
     //@Expose
     private String jWT;
@@ -38,7 +38,7 @@ public class login_post {
     private String phone;
     @SerializedName("status")
     //@Expose
-    private Integer status;
+    private int status;
 
     public Object getOccupation() {
         return occupation;
@@ -64,7 +64,7 @@ public class login_post {
         this.name = name;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
@@ -112,7 +112,7 @@ public class login_post {
         this.phone = phone;
     }
 
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 

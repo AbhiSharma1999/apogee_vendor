@@ -9,6 +9,8 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.example.abhishek.apogee_vendor.adapter.orderListAdapter;
 import com.example.abhishek.apogee_vendor.adapter.pagerAdapter;
 import com.example.abhishek.apogee_vendor.fragment.finished_declined_fragment;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sp = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
         int vendor = sp.getInt("ID" , 0);
         String JWT = sp.getString("JWT",null);
+        if(JWT != null) Log.d("JWT",JWT);
         if(JWT==null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
