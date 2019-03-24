@@ -11,8 +11,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.abhishek.apogee_vendor.model.login_post;
+import com.example.abhishek.apogee_vendor.model.login_request_body;
 import com.example.abhishek.apogee_vendor.remote.APIService;
 import com.example.abhishek.apogee_vendor.remote.ApiUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,12 +30,21 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+
         Button button_login ;
         final EditText et_password , et_username;
 
         button_login = (Button)findViewById(R.id.button_login);
         et_password = (EditText)findViewById(R.id.password);
         et_username = (EditText)findViewById(R.id.username);
+        String username = et_username.getText().toString().trim();
+        String password = et_password.getText().toString().trim();
+        
+
+        final login_request_body request_body = new login_request_body(username,password,"");
+        Log.d("username",request_body.getUsername());
+        Log.d("password",request_body.getPassword());
 
 
         mAPIService = ApiUtils.getAPIService();
@@ -41,14 +54,15 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String username = et_username.getText().toString().trim();
                 String password = et_password.getText().toString().trim();
-                String reg_token = "";
                 if(username.equals("")||password.equals(""))
                 {
                     Toast.makeText(LoginActivity.this , "username and password cannot be left blank",Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    sendPOST(username, password, reg_token);
-                    
+                    sendPOST(request_body);
+                    Log.d("username",request_body.getUsername());
+                    Log.d("password",request_body.getPassword());
+
                 }
             }
 
@@ -60,9 +74,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void sendPOST(String username , String password , String reg_token)
+    public void sendPOST(final login_request_body requestbody)
     {
-        mAPIService.savelogin_post(username,password ,reg_token).enqueue(new Callback<login_post>() {
+        mAPIService.savelogin_post(requestbody).enqueue(new Callback<login_post>() {
             @Override
             public void onResponse(Call<login_post> call, Response<login_post> response) {
                 if(response.isSuccessful()){

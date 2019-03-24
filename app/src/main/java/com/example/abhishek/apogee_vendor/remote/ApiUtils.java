@@ -1,5 +1,12 @@
 package com.example.abhishek.apogee_vendor.remote;
 
+import com.example.abhishek.apogee_vendor.BuildConfig;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+
 /**
  * Created by abhishek on 19/3/19.
  */
