@@ -44,10 +44,11 @@ public class LoginActivity extends AppCompatActivity {
                 String reg_token = "";
                 if(username.equals("")||password.equals(""))
                 {
-                    Toast.makeText(LoginActivity.this , "username and password cand be left blank",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this , "username and password cannot be left blank",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     sendPOST(username, password, reg_token);
+                    
                 }
             }
 
@@ -83,6 +84,8 @@ public class LoginActivity extends AppCompatActivity {
                 else
                 {
                     Log.d("bad response",""+response.code());
+                    Toast.makeText(LoginActivity.this , "response code"+response.code(),Toast.LENGTH_SHORT).show();
+
                 }
             }
 

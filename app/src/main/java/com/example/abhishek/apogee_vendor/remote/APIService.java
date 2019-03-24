@@ -23,19 +23,19 @@ public interface APIService {
    // String JWT = "JWT ".concat(prefs.getString("JWT",""));
     @FormUrlEncoded
     @POST("auth")
-    @Headers({"Content-Type:application/json","X-Wallet-Token:samp1e_Token"})
+    @Headers({"Content-Type:application/json","X-Wallet-Token:ec123dac-339b-41ba-bca4-d3cab464083d"})
     Call<login_post> savelogin_post(@Field("username")String username,
                                     @Field("password")String password,
                                     @Field("reg_token")String reg_token);
 
     @FormUrlEncoded
     @POST("advance")
-    @Headers({"Content-Type:application/json","X-Wallet-Token:samp1e_Token"})
+    @Headers({"Content-Type:application/json","X-Wallet-Token:ec123dac-339b-41ba-bca4-d3cab464083d"})
     Call<advance_post> saveadvance_post(@Field("order_id")int order_id , @Header("Authorization")String JWT );
 
     @FormUrlEncoded
     @POST("decline")
-    @Headers({"Content-Type:application/json","X-Wallet-Token:samp1e_Token"} )
+    @Headers({"Content-Type:application/json","X-Wallet-Token:ec123dac-339b-41ba-bca4-d3cab464083d"} )
     Call<decline_post> savedecline_post(@Field("order_id")int order_id , @Header("Authorization")String JWT);
 
 }
