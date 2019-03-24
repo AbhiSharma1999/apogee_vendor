@@ -25,8 +25,8 @@ import java.util.List;
 public class finished_declined_fragment extends android.support.v4.app.Fragment{
 
 
-    static List<orders_model> finished_declined_list;
-    static orderListAdapter orderListAdapter1;
+    public static List<orders_model> finished_declined_list;
+    public static orderListAdapter orderListAdapter1;
 
 
     public finished_declined_fragment()

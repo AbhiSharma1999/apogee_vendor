@@ -24,8 +24,8 @@ import java.util.List;
 
 public class pending_accepted_fragment extends android.support.v4.app.Fragment{
 
-    static List<orders_model> pending_accepted_list;
-    static orderListAdapter orderListAdapter2;
+    public static List<orders_model> pending_accepted_list;
+    public static orderListAdapter orderListAdapter2;
     public pending_accepted_fragment()
     {}
 
@@ -62,7 +62,7 @@ public class pending_accepted_fragment extends android.support.v4.app.Fragment{
         super.onDetach();
         RecyclerView mMainList2 ;
         mMainList2 = (RecyclerView)getActivity().findViewById(R.id.pending_accepted_list);
-        mMainList2.setHasFixedSize(true);
+        //mMainList2.setHasFixedSize(true);
         mMainList2.setLayoutManager(new LinearLayoutManager(getContext()));
         //orderListAdapter2 = new orderListAdapter(pending_accepted_list);
         mMainList2.setAdapter(orderListAdapter2);

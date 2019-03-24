@@ -24,8 +24,8 @@ import java.util.List;
 
 public class ready_fragment extends android.support.v4.app.Fragment{
 
-    static List<orders_model> ready_list;
-    static orderListAdapter orderListAdapter3;
+    public static List<orders_model> ready_list;
+    public static orderListAdapter orderListAdapter3;
     public ready_fragment()
     {}
 

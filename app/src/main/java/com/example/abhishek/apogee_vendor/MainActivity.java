@@ -24,16 +24,23 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import static com.example.abhishek.apogee_vendor.fragment.finished_declined_fragment.finished_declined_list;
+import static com.example.abhishek.apogee_vendor.fragment.finished_declined_fragment.orderListAdapter1;
+import static com.example.abhishek.apogee_vendor.fragment.pending_accepted_fragment.orderListAdapter2;
+import static com.example.abhishek.apogee_vendor.fragment.pending_accepted_fragment.pending_accepted_list;
+import static com.example.abhishek.apogee_vendor.fragment.ready_fragment.orderListAdapter3;
+import static com.example.abhishek.apogee_vendor.fragment.ready_fragment.ready_list;
+
 
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    static ArrayList<orders_model> finished_declined_list= new ArrayList<>();
+    /*static ArrayList<orders_model> finished_declined_list= new ArrayList<>();
     static ArrayList<orders_model> pending_accepted_list = new ArrayList<>();
     static ArrayList<orders_model> ready_list = new ArrayList<>();
     static orderListAdapter orderListAdapter1 = new orderListAdapter(finished_declined_list);
     static orderListAdapter orderListAdapter2 = new orderListAdapter(pending_accepted_list);
-    static orderListAdapter orderListAdapter3 = new orderListAdapter(ready_list);
+    static orderListAdapter orderListAdapter3 = new orderListAdapter(ready_list);*/
     static ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +57,57 @@ public class MainActivity extends AppCompatActivity {
         String vendorId = ""+vendor;
 
 
+        finished_declined_list = new ArrayList<>();
+        orderListAdapter1 = new orderListAdapter(finished_declined_list)    ;
+        pending_accepted_list = new ArrayList<>();
+        orderListAdapter2 = new orderListAdapter(pending_accepted_list);
+        ready_list = new ArrayList<>();
+        orderListAdapter3 = new orderListAdapter(ready_list);
+        Log.d("VendorId",vendorId);
 
 
-        if(!vendorId.equals(" "))
-        {
+
             database.getReference().child("vendors").child("vendor - ".concat(vendorId)).child("orders").addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+                    Log.d("VendorId",56+"fwfwf");
+
+                    finished_declined_list.clear();
+                    pending_accepted_list.clear();
+                    ready_list.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                        if (Integer.parseInt(snapshot.child("status").getValue().toString() ) == 3 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 4) {
+                            finished_declined_list.add(new orders_model(snapshot.getKey(),
+                                    snapshot.child("timestamp").getValue().toString(),
+                                    Integer.parseInt(snapshot.child("status").getValue().toString()),
+                                    Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+                                    Integer.parseInt(snapshot.child("otp").getValue().toString()),
+                                    Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Log.d("Tag1", snapshot.toString());
+
+                            orderListAdapter1.notifyDataSetChanged();
+                        } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 0 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 1) {
+                            pending_accepted_list.add(new orders_model(snapshot.getKey(),
+                                    snapshot.child("timestamp").getValue().toString(),
+                                    Integer.parseInt(snapshot.child("status").getValue().toString()),
+                                    Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+                                    Integer.parseInt(snapshot.child("otp").getValue().toString()),
+                                    Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Log.d("Tag2", snapshot.toString());
+                            orderListAdapter2.notifyDataSetChanged();
+                        } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 2) {
+                            ready_list.add(new orders_model(snapshot.getKey(),
+                                    snapshot.child("timestamp").getValue().toString(),
+                                    Integer.parseInt(snapshot.child("status").getValue().toString()),
+                                    Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+                                    Integer.parseInt(snapshot.child("otp").getValue().toString()),
+                                    Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Log.d("Tag3", snapshot.toString());
+                            orderListAdapter3.notifyDataSetChanged();
+                        }
+                    }
                 }
 
 
@@ -76,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                                     Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                                     Integer.parseInt(snapshot.child("otp").getValue().toString()),
                                     Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Log.d("Tag1", snapshot.toString());
 
                             orderListAdapter1.notifyDataSetChanged();
                         } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 0 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 1) {
@@ -85,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                                     Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                                     Integer.parseInt(snapshot.child("otp").getValue().toString()),
                                     Integer.parseInt(snapshot.child("price").getValue().toString())));
-
+                            Log.d("Tag2", snapshot.toString());
                             orderListAdapter2.notifyDataSetChanged();
                         } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 2) {
                             ready_list.add(new orders_model(snapshot.getKey(),
@@ -94,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                                     Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                                     Integer.parseInt(snapshot.child("otp").getValue().toString()),
                                     Integer.parseInt(snapshot.child("price").getValue().toString())));
-
+                            Log.d("Tag3", snapshot.toString());
                             orderListAdapter3.notifyDataSetChanged();
                         }
                     }
@@ -114,11 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-        }
-        else
-        {
-            //Handle Error
-        }
+
 
         viewPager = (ViewPager)findViewById(R.id.viewpager);
         TabLayout tabLayout=(TabLayout)findViewById(R.id.tablayout);
