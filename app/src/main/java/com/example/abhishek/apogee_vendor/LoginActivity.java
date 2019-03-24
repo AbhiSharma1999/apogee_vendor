@@ -25,6 +25,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     private APIService mAPIService;
+    String JWT="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +79,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<login_post> call, Response<login_post> response) {
                 if(response.isSuccessful()){
-                    login_post responselogin = new login_post();
-                    String JWT = responselogin.getJWT();
-                    int userID = 0;
-                    if(responselogin.getUserId()!=0) {
-                        userID = responselogin.getUserId();
-                    }
+                  response.body();
+                  int userID = response.body().getUserId();
+                  String JWT = response.body().getJWT();
                     Log.d("post submitted to API", ""+response.body().toString());
 
 

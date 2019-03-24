@@ -28,12 +28,12 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    ArrayList<orders_model> finished_declined_list= new ArrayList<>();
-    ArrayList<orders_model> pending_accepted_list = new ArrayList<>();
-    ArrayList<orders_model> ready_list = new ArrayList<>();
-    orderListAdapter orderListAdapter1 = new orderListAdapter(finished_declined_list);
-    orderListAdapter orderListAdapter2 = new orderListAdapter(pending_accepted_list);
-    orderListAdapter orderListAdapter3 = new orderListAdapter(ready_list);
+    static ArrayList<orders_model> finished_declined_list= new ArrayList<>();
+    static ArrayList<orders_model> pending_accepted_list = new ArrayList<>();
+    static ArrayList<orders_model> ready_list = new ArrayList<>();
+    static orderListAdapter orderListAdapter1 = new orderListAdapter(finished_declined_list);
+    static orderListAdapter orderListAdapter2 = new orderListAdapter(pending_accepted_list);
+    static orderListAdapter orderListAdapter3 = new orderListAdapter(ready_list);
     static ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

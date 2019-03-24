@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import com.example.abhishek.apogee_vendor.adapter.itemListAdapter;
 import com.example.abhishek.apogee_vendor.model.advance_post;
+import com.example.abhishek.apogee_vendor.model.advance_request_body;
 import com.example.abhishek.apogee_vendor.model.decline_post;
+import com.example.abhishek.apogee_vendor.model.decline_request_body;
 import com.example.abhishek.apogee_vendor.model.items_model;
 import com.example.abhishek.apogee_vendor.remote.APIService;
 import com.example.abhishek.apogee_vendor.remote.ApiUtils;
@@ -149,7 +151,8 @@ public class ItemsActivity extends AppCompatActivity {
            @Override
            public void onClick(View view) {
 
-                sendAdvacePost(orderIdvalue,JWT,status);
+               advance_request_body request_body = new advance_request_body(orderIdvalue);
+               sendAdvacePost(request_body,JWT,status);
                 bDecline.setClickable(false);
 
            }
@@ -157,19 +160,22 @@ public class ItemsActivity extends AppCompatActivity {
        bReady.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               sendAdvacePost(orderIdvalue,JWT,status);
+               advance_request_body request_body = new advance_request_body(orderIdvalue);
+               sendAdvacePost(request_body,JWT,status);
            }
        });
        bFinish.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               sendAdvacePost(orderIdvalue,JWT,status);
+               advance_request_body request_body = new advance_request_body(orderIdvalue);
+               sendAdvacePost(request_body,JWT,status);
            }
        });
        bDecline.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               sendDeclinePost(orderIdvalue,JWT,status);
+               decline_request_body request_body = new decline_request_body(orderIdvalue);
+               sendDeclinePost(request_body,JWT,status);
                bAccept.setClickable(false);
            }
        });
@@ -177,15 +183,15 @@ public class ItemsActivity extends AppCompatActivity {
 
     }
 
-    public void sendAdvacePost(int orderIdvalue , String JWT , final int status)
+    public void sendAdvacePost(advance_request_body orderIdvalue , String JWT , final int status)
     {
         mAPIService.saveadvance_post(orderIdvalue,JWT).enqueue(new Callback<advance_post>() {
             @Override
             public void onResponse(Call<advance_post> call, Response<advance_post> response) {
                 if(response.isSuccessful())
                 {
-                    advance_post responselogin =new advance_post();
-                    String displayMessage = responselogin.getDisplayMessage();
+                    response.body();
+                    String displayMessage = response.body().getDisplayMessage();
                     Toast.makeText(ItemsActivity.this,displayMessage,Toast.LENGTH_SHORT).show();
                     if(status==0)
                     {
@@ -225,15 +231,15 @@ public class ItemsActivity extends AppCompatActivity {
         });
     }
 
-    public void sendDeclinePost(int orderIdvalue, String JWT, final int status)
+    public void sendDeclinePost(decline_request_body orderIdvalue, String JWT, final int status)
     {
         mAPIService.savedecline_post(orderIdvalue,JWT ).enqueue(new Callback<decline_post>() {
             @Override
             public void onResponse(Call<decline_post> call, Response<decline_post> response) {
                 if(response.isSuccessful())
                 {
-                    advance_post responselogin =new advance_post();
-                    String displayMessage = responselogin.getDisplayMessage();
+                    response.body();
+                    String displayMessage = response.body().getDisplayMessage();
                     Toast.makeText(ItemsActivity.this,displayMessage,Toast.LENGTH_SHORT).show();
                     bAccept.setVisibility(View.GONE);
                     bDecline.setVisibility(View.GONE);

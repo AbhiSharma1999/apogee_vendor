@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.abhishek.apogee_vendor.model.advance_post;
+import com.example.abhishek.apogee_vendor.model.advance_request_body;
 import com.example.abhishek.apogee_vendor.model.decline_post;
+import com.example.abhishek.apogee_vendor.model.decline_request_body;
 import com.example.abhishek.apogee_vendor.model.login_post;
 import com.example.abhishek.apogee_vendor.model.login_request_body;
 
@@ -29,14 +31,12 @@ public interface APIService {
     @Headers({"Content-Type:application/json","X-Wallet-Token:ec123dac-339b-41ba-bca4-d3cab464083d"})
     Call<login_post> savelogin_post(@Body login_request_body jsonObject);
 
-    @FormUrlEncoded
     @POST("advance")
     @Headers({"Content-Type:application/json","X-Wallet-Token:ec123dac-339b-41ba-bca4-d3cab464083d"})
-    Call<advance_post> saveadvance_post(@Field("order_id")int order_id , @Header("Authorization")String JWT );
+    Call<advance_post> saveadvance_post(@Body advance_request_body jsonObject, @Header("Authorization")String JWT );
 
-    @FormUrlEncoded
     @POST("decline")
     @Headers({"Content-Type:application/json","X-Wallet-Token:ec123dac-339b-41ba-bca4-d3cab464083d"} )
-    Call<decline_post> savedecline_post(@Field("order_id")int order_id , @Header("Authorization")String JWT);
+    Call<decline_post> savedecline_post(@Body decline_request_body jsonObject , @Header("Authorization")String JWT);
 
 }
