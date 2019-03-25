@@ -38,10 +38,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ItemsActivity extends AppCompatActivity {
-     private DatabaseReference database;
+     private FirebaseDatabase database;
     // private items_model obj=new items_model();
-     private ArrayList<items_model> nlist=new ArrayList<>();
+     public ArrayList<items_model> nlist=new ArrayList<>();
      RecyclerView recyclerView;
+     public  ArrayList<String> namelist = new ArrayList<>();
      itemListAdapter adapter;
      int orderIdvalue;
      private APIService mAPIService;
@@ -59,40 +60,101 @@ public class ItemsActivity extends AppCompatActivity {
        bFinish=(Button)findViewById(R.id.button_finish);
        bReady = (Button)findViewById(R.id.button_ready);
 
-        final items_model obj = new items_model();
+       if(nlist!=null)
+        nlist.clear();
+       if (namelist!=null)
+           namelist.clear();
+
         recyclerView=findViewById(R.id.itemsRecycler);
-        adapter=new itemListAdapter(this,nlist);
-        recyclerView.setAdapter(adapter);
+
         Intent intent=getIntent();
         final String orderId=intent.getStringExtra("orderId");
         final int status = intent.getIntExtra("status",0);
         orderIdvalue = Integer.parseInt(orderId.replaceAll("[^0-9]",""));
         SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
-        final String vid=prefs.getString("ID"," ");
+        final int vid=prefs.getInt("ID",0);
         final String JWT = "JWT ".concat(prefs.getString("JWT",""));
-        database= FirebaseDatabase.getInstance().getReference("vendors");
-       if(!orderId.equals("")) {
+        database= FirebaseDatabase.getInstance();
+        final FirebaseDatabase name =FirebaseDatabase.getInstance();
 
-           database.child("vendors").child("vendor - ".concat(vid)).child("orders").child(orderId)
+            Log.d("items_vendor_id","vendor - "+vid);
+
+
+        name.getReference().child("vendors").child("vendor - "+vid).child("menu").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("MenuArraylist1",dataSnapshot.toString());
+                namelist.add(dataSnapshot.child("name").getValue().toString());
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("MenuArraylist2",dataSnapshot.toString());
+                namelist.add(dataSnapshot.child("name").getValue().toString());
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+           database.getReference().child("vendors").child("vendor - "+vid).child("orders").child(orderId)
                    .child("items").addChildEventListener(new ChildEventListener() {
 
 
 
                @Override
-               public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+               public void onChildAdded(@NonNull DataSnapshot ds, @Nullable String s) {
+                   /*nlist.clear();
+                   Log.d("check", ds.toString());
+                   hello world
+
+
+
+                   int key = Integer.parseInt(ds.getKey());
+                   String item_name = ds.child("vendors").child("vendor - "+vid).child("menu").child(""+key).child("name").getValue().toString();
+                   obj.setItemName(item_name);
+                   obj.setItemId(ds.getKey());
+
+                   obj.setItemVal(ds.getValue().toString());
+                   Log.d("check", obj.toString());
+                   nlist.add(obj);*/
+                    Log.d("Items_check",ds.toString());
+                   int key = Integer.parseInt(ds.getKey());
+                   //String item_name = ds.child("vendors").child("vendor - "+vid).child("menu").child(""+key).child("name").getValue().toString();
+                   String item_name = namelist.get(key-1);
+
+                   String item_val = ds.getValue().toString();
+                   nlist.add(new items_model(item_name,item_val));
+                   adapter.notifyDataSetChanged();
+
 
                }
 
                @Override
-               public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+               public void onChildChanged(@NonNull DataSnapshot ds, @Nullable String s) {
 
-                   nlist.clear();
-                   Log.d("check", dataSnapshot.toString());
-                   for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                   /*nlist.clear();
+                   Log.d("check", ds.toString());
+
 
 
                        int key = Integer.parseInt(ds.getKey());
-                       String item_name = ds.child("vendors").child("vendor - ".concat(vid)).child("menu").child(""+key).child("name").getValue().toString();
+                       String item_name = ds.child("vendors").child("vendor - "+vid).child("menu").child(""+key).child("name").getValue().toString();
                        obj.setItemName(item_name);
                        obj.setItemId(ds.getKey());
 
@@ -100,7 +162,14 @@ public class ItemsActivity extends AppCompatActivity {
                        Log.d("check", obj.toString());
                        nlist.add(obj);
 
-                   }
+
+                   adapter.notifyDataSetChanged();*/
+                   Log.d("Items_check",ds.toString());
+                   int key = Integer.parseInt(ds.getKey());
+                   //String item_name = ds.child("vendors").child("vendor - "+vid).child("menu").child(""+key).child("name").getValue().toString();
+                   String item_name = namelist.get(key-1);
+                   String item_val = ds.getValue().toString();
+                   nlist.add(new items_model(item_name,item_val));
                    adapter.notifyDataSetChanged();
                }
 
@@ -119,11 +188,9 @@ public class ItemsActivity extends AppCompatActivity {
 
                }
            });
-       }
-       else
-       {
-           //handle error
-       }
+        adapter=new itemListAdapter(nlist);
+        recyclerView.setAdapter(adapter);
+
        if(status==1)
        {
             bAccept.setVisibility(View.GONE);

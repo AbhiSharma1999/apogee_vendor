@@ -15,11 +15,10 @@ import com.example.abhishek.apogee_vendor.model.items_model;
 import java.util.ArrayList;
 
 public class itemListAdapter extends RecyclerView.Adapter<itemListAdapter.ViewHolder> {
-    private Context context;
-    private ArrayList<items_model> mlist=new ArrayList<>();
-    public itemListAdapter(Context context1,ArrayList<items_model> nlist) {
-        context=context1;
-        mlist.addAll(nlist);
+    public ArrayList<items_model> mlist=new ArrayList<>();
+    public itemListAdapter(ArrayList<items_model> nlist) {
+        this.mlist = nlist;
+
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,6 +30,9 @@ public class itemListAdapter extends RecyclerView.Adapter<itemListAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
            holder.itemValue.setText(mlist.get(position).getItemVal());
            holder.itemName.setText(mlist.get(position).getItemName());
+
+
+
     }
 
 
@@ -41,15 +43,17 @@ public class itemListAdapter extends RecyclerView.Adapter<itemListAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        View mView;
         TextView itemName;
         TextView itemValue;
         ConstraintLayout parent;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemName = itemView.findViewById(R.id.itemName);
-            itemValue = itemView.findViewById(R.id.itemValue);
-            parent = itemView.findViewById(R.id.parent);
+            mView=itemView;
+            itemName = (TextView)mView.findViewById(R.id.itemName);
+            itemValue = (TextView)mView.findViewById(R.id.itemValue);
+           // parent = itemView.findViewById(R.id.parent);
         }
     }
 }

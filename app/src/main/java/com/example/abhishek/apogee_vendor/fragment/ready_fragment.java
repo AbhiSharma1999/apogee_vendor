@@ -16,6 +16,7 @@ import com.example.abhishek.apogee_vendor.R;
 import com.example.abhishek.apogee_vendor.adapter.orderListAdapter;
 import com.example.abhishek.apogee_vendor.model.orders_model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ import java.util.List;
 
 public class ready_fragment extends android.support.v4.app.Fragment{
 
-    public static List<orders_model> ready_list;
+    public static ArrayList<orders_model> ready_list;
     public static orderListAdapter orderListAdapter3;
     public ready_fragment()
     {}
@@ -47,7 +48,16 @@ public class ready_fragment extends android.support.v4.app.Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.ready_tab , container , false);
+        View v=inflater.inflate(R.layout.ready_tab , container , false);;
+        RecyclerView mMainList3 ;
+        mMainList3 = (RecyclerView)v.findViewById(R.id.ready_list);
+        mMainList3.setHasFixedSize(true);
+        mMainList3.setLayoutManager(new LinearLayoutManager(getContext()));
+        if(ready_list==null)
+        {ready_list=new ArrayList<>();}
+        orderListAdapter3=new orderListAdapter(ready_list);
+        mMainList3.setAdapter(orderListAdapter3);
+        return v;
     }
 
     @Override
@@ -59,12 +69,7 @@ public class ready_fragment extends android.support.v4.app.Fragment{
     @Override
     public void onDetach() {
         super.onDetach();
-        RecyclerView mMainList3 ;
-        mMainList3 = (RecyclerView)getActivity().findViewById(R.id.ready_list);
-        mMainList3.setHasFixedSize(true);
-        mMainList3.setLayoutManager(new LinearLayoutManager(getContext()));
-        //orderListAdapter3=new orderListAdapter(ready_list);
-        mMainList3.setAdapter(orderListAdapter3);
+     //   ready_list.clear();
 
 
     }

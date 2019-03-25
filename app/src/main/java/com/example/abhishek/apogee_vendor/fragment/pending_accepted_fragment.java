@@ -16,6 +16,7 @@ import com.example.abhishek.apogee_vendor.R;
 import com.example.abhishek.apogee_vendor.adapter.orderListAdapter;
 import com.example.abhishek.apogee_vendor.model.orders_model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,7 +25,7 @@ import java.util.List;
 
 public class pending_accepted_fragment extends android.support.v4.app.Fragment{
 
-    public static List<orders_model> pending_accepted_list;
+    public static ArrayList<orders_model> pending_accepted_list;
     public static orderListAdapter orderListAdapter2;
     public pending_accepted_fragment()
     {}
@@ -48,7 +49,17 @@ public class pending_accepted_fragment extends android.support.v4.app.Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.pending_accepted_tab , container , false);
+        View v = inflater.inflate(R.layout.pending_accepted_tab, container, false);
+        RecyclerView mMainList2;
+        mMainList2 = (RecyclerView) v.findViewById(R.id.pending_accepted_list);
+        //mMainList2.setHasFixedSize(true);
+        mMainList2.setLayoutManager(new LinearLayoutManager(getContext()));
+        if(pending_accepted_list==null)
+        {pending_accepted_list=new ArrayList<>();}
+        orderListAdapter2 = new orderListAdapter(pending_accepted_list);
+        mMainList2.setAdapter(orderListAdapter2);
+        orderListAdapter2.notifyDataSetChanged();
+        return v;
     }
 
     @Override
@@ -60,13 +71,7 @@ public class pending_accepted_fragment extends android.support.v4.app.Fragment{
     @Override
     public void onDetach() {
         super.onDetach();
-        RecyclerView mMainList2 ;
-        mMainList2 = (RecyclerView)getActivity().findViewById(R.id.pending_accepted_list);
-        //mMainList2.setHasFixedSize(true);
-        mMainList2.setLayoutManager(new LinearLayoutManager(getContext()));
-        //orderListAdapter2 = new orderListAdapter(pending_accepted_list);
-        mMainList2.setAdapter(orderListAdapter2);
-
+      //  pending_accepted_list.clear();
 
     }
 }

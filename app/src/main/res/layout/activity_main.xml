@@ -23,19 +23,19 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/pending_accepted_tab"
-            android:text="Pending/Accepted"/>
+            android:text="Finished/Declined"/>
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/ready_tab"
-            android:text="Ready"/>
+            android:text="Pending/Accepted"/>
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/finished_declined_tab"
-            android:text="Finished/Declined"/>
+            android:text="Ready"/>
 
     </android.support.design.widget.TabLayout>
 

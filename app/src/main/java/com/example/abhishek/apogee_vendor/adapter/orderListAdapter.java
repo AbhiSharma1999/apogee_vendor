@@ -13,6 +13,7 @@ import com.example.abhishek.apogee_vendor.ItemsActivity;
 import com.example.abhishek.apogee_vendor.R;
 import com.example.abhishek.apogee_vendor.model.orders_model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,8 +23,8 @@ import java.util.List;
 public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.ViewHolder>{
 
 
-    public List<orders_model> ordersModelList;
-    public orderListAdapter(List<orders_model> ordersModelList)
+    public ArrayList<orders_model> ordersModelList;
+    public orderListAdapter(ArrayList<orders_model> ordersModelList)
     {
         this.ordersModelList = ordersModelList;
     }
@@ -43,7 +44,7 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        holder.user_id.setText(ordersModelList.get(position).getUser_id()+"");
+        holder.user_id.setText("UserId:"+ordersModelList.get(position).getUser_id());
         holder.timestamp.setText(ordersModelList.get(position).getTimestamp());
         holder.order_id.setText(ordersModelList.get(position).getOrder_id());
 
@@ -81,7 +82,7 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
         holder.otp.setText("OTP:"+ordersModelList.get(position).getOtp());
         holder.otp.setTextColor(Color.parseColor("#3F51B5"));
 
-        holder.price.setText(ordersModelList.get(position).getPrice()+"");
+        holder.price.setText("Rs." +ordersModelList.get(position).getPrice());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +105,7 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
 
     @Override
     public int getItemCount() {
-        return 0;
+        return ordersModelList.size();
     }
 
 

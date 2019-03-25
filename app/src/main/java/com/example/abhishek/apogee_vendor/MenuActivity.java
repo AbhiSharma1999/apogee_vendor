@@ -3,6 +3,7 @@ package com.example.abhishek.apogee_vendor;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.widget.Button;
 
 import com.example.abhishek.apogee_vendor.adapter.menuAdapter;
 import com.example.abhishek.apogee_vendor.model.menu_model;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,9 +25,12 @@ import java.util.ArrayList;
 public class MenuActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     menuAdapter adapter;
+    SharedPreferences sp = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
+    int vendor = sp.getInt("ID" , 0);
+    String JWT = sp.getString("JWT",null);
     ArrayList<menu_model> menulist=new ArrayList<>();
-    DatabaseReference mdata;
-    Button item_switch;
+
+  //  Button item_switch;
 
     private static int i=1;
     @Override
@@ -33,31 +38,58 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        item_switch = (Button)findViewById(R.id.switch1);
+     //   item_switch = (Button)findViewById(R.id.switch1);
         recyclerView=findViewById(R.id.menuRecycler);
-        adapter=new menuAdapter(menulist);
+
+        SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
+        String vid=prefs.getInt("ID",0)+"";
+       final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+       database.getReference().child("vendors").child("vendor - "+vid).child("menu").addChildEventListener(new ChildEventListener() {
+           @Override
+           public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+               Log.d("MenuActivity1",dataSnapshot.toString());
+               String name = dataSnapshot.child("name").getValue().toString();
+               String price = dataSnapshot.child("price").getValue().toString();
+               String availablity = dataSnapshot.child("is_available").getValue().toString();
+               String item_id = dataSnapshot.getKey().toString();
+
+               menulist.add(new menu_model(name,price,Boolean.parseBoolean(availablity),item_id));
+
+           }
+
+           @Override
+           public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+               Log.d("MenuActivity2",dataSnapshot.toString());
+               String name = dataSnapshot.child("name").getValue().toString();
+               String price = dataSnapshot.child("price").getValue().toString();
+               String availablity = dataSnapshot.child("is_available").getValue().toString();
+               String item_id = dataSnapshot.getKey().toString();
+               menulist.add(new menu_model(name,price,Boolean.parseBoolean(availablity),item_id));
+
+
+           }
+
+           @Override
+           public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+           }
+
+           @Override
+           public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError databaseError) {
+
+           }
+       });
+        adapter=new menuAdapter(menulist,JWT);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
-        String vid=prefs.getString("ID"," ");
-       mdata= FirebaseDatabase.getInstance().getReference("vendors/vendor - ".concat(vid).concat("/menu"));
-       mdata.addListenerForSingleValueEvent(valueEventListener);
-    }
-    ValueEventListener valueEventListener=new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            for(DataSnapshot ds:dataSnapshot.getChildren()){
-                menu_model menu=new menu_model();
-                menu.setMenuname(ds.child(ds.getKey()).getValue(menu_model.class).getMenuname());
-                menu.setPrice(ds.child(ds.getKey()).getValue(menu_model.class).getPrice());
-                menulist.add(menu);
-            }
-            adapter.notifyDataSetChanged();
-        }
+}
 
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        }
-    };
+
 }

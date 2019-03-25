@@ -9,6 +9,8 @@ import com.example.abhishek.apogee_vendor.model.decline_post;
 import com.example.abhishek.apogee_vendor.model.decline_request_body;
 import com.example.abhishek.apogee_vendor.model.login_post;
 import com.example.abhishek.apogee_vendor.model.login_request_body;
+import com.example.abhishek.apogee_vendor.model.toggle_post;
+import com.example.abhishek.apogee_vendor.model.toggle_request_body;
 
 import org.json.JSONObject;
 
@@ -25,18 +27,19 @@ import retrofit2.http.POST;
  */
 
 public interface APIService {
-   // SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
-   // String JWT = "JWT ".concat(prefs.getString("JWT",""));
     @POST("auth")
     @Headers({"Content-Type:application/json","X-Wallet-Token:ec123dac-339b-41ba-bca4-d3cab464083d"})
     Call<login_post> savelogin_post(@Body login_request_body jsonObject);
 
-    @POST("advance")
+    @POST("vendor/orders/advance")
     @Headers({"Content-Type:application/json","X-Wallet-Token:ec123dac-339b-41ba-bca4-d3cab464083d"})
     Call<advance_post> saveadvance_post(@Body advance_request_body jsonObject, @Header("Authorization")String JWT );
 
-    @POST("decline")
+    @POST("vendor/orders/decline")
     @Headers({"Content-Type:application/json","X-Wallet-Token:ec123dac-339b-41ba-bca4-d3cab464083d"} )
     Call<decline_post> savedecline_post(@Body decline_request_body jsonObject , @Header("Authorization")String JWT);
 
+    @POST("vendor/items/availability")
+    @Headers({"Content-Type:application/json","X-Wallet-Token:ec123dac-339b-41ba-bca4-d3cab464083d"} )
+    Call<toggle_post>savetoggle_post(@Body toggle_request_body body , @Header("Authorization")String JWT);
 }

@@ -8,6 +8,57 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:366900395063:android:10a9e15ecc9447a9",
+        "android_client_info": {
+          "package_name": "com.anenigmatic.apogee19"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366900395063-2a56m4js6e2gaanebqoo3ur2f97diita.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anenigmatic.apogee19",
+            "certificate_hash": "a41f89a0e1f29bac6b0a870f08228402c9f3de39"
+          }
+        },
+        {
+          "client_id": "366900395063-pd5bccuiaghugun4hiqvpcoqs6ip8miq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXjAPjBXFtp6oJCij8C3kJaNZYlnAOk2Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "366900395063-pd5bccuiaghugun4hiqvpcoqs6ip8miq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "366900395063-h0gdj6sdqma457jjgp32pld03o26so0i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dvm.apogeeioswallet"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:366900395063:android:71c4cf0c38ed4fa5",
         "android_client_info": {
           "package_name": "com.example.abhishek.apogee_vendor"
@@ -31,6 +82,57 @@
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366900395063:android:4acd691e9be89b82",
+        "android_client_info": {
+          "package_name": "com.example.apogeevendorab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366900395063-c5tis9svl5qk6bbjcf0lr0psoqbtfe3s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.apogeevendorab",
+            "certificate_hash": "539ee6c572a0eec7a1711ae92259b26550a23dfb"
+          }
+        },
+        {
+          "client_id": "366900395063-pd5bccuiaghugun4hiqvpcoqs6ip8miq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXjAPjBXFtp6oJCij8C3kJaNZYlnAOk2Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "366900395063-pd5bccuiaghugun4hiqvpcoqs6ip8miq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "366900395063-h0gdj6sdqma457jjgp32pld03o26so0i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dvm.apogeeioswallet"
+              }
+            }
+          ]
         },
         "ads_service": {
           "status": 2
