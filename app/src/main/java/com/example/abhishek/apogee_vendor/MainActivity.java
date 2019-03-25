@@ -121,7 +121,8 @@ public class MainActivity extends AppCompatActivity {
                             Integer.parseInt(snapshot.child("status").getValue().toString()),
                             Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                             Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
                     Log.d("Tag1", snapshot.toString());
 
                     orderListAdapter1.notifyDataSetChanged();
@@ -131,7 +132,8 @@ public class MainActivity extends AppCompatActivity {
                             Integer.parseInt(snapshot.child("status").getValue().toString()),
                             Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                             Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
                     Log.d("checkList", "q" + pending_accepted_list.size());
                     Log.d("Tag2", snapshot.toString());
                     orderListAdapter2.notifyDataSetChanged();
@@ -141,7 +143,8 @@ public class MainActivity extends AppCompatActivity {
                             Integer.parseInt(snapshot.child("status").getValue().toString()),
                             Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                             Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
                     Log.d("Tag3", snapshot.toString());
                     orderListAdapter3.notifyDataSetChanged();
                 }
@@ -163,7 +166,8 @@ public class MainActivity extends AppCompatActivity {
                                 Integer.parseInt(snapshot.child("status").getValue().toString()),
                                 Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                                 Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                                Integer.parseInt(snapshot.child("price").getValue().toString())));
+                                Integer.parseInt(snapshot.child("price").getValue().toString()),
+                                Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
                         Log.d("Tag1", snapshot.toString());
 
                         orderListAdapter1.notifyDataSetChanged();
@@ -173,7 +177,8 @@ public class MainActivity extends AppCompatActivity {
                                 Integer.parseInt(snapshot.child("status").getValue().toString()),
                                 Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                                 Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                                Integer.parseInt(snapshot.child("price").getValue().toString())));
+                                Integer.parseInt(snapshot.child("price").getValue().toString()),
+                                Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
                         Log.d("Tag2", snapshot.toString());
                         orderListAdapter2.notifyDataSetChanged();
                     } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 2) {
@@ -182,7 +187,8 @@ public class MainActivity extends AppCompatActivity {
                                 Integer.parseInt(snapshot.child("status").getValue().toString()),
                                 Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                                 Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                                Integer.parseInt(snapshot.child("price").getValue().toString())));
+                                Integer.parseInt(snapshot.child("price").getValue().toString()),
+                                Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
                         Log.d("Tag3", snapshot.toString());
                         orderListAdapter3.notifyDataSetChanged();
                     }
@@ -245,7 +251,8 @@ public class MainActivity extends AppCompatActivity {
                             Integer.parseInt(snapshot.child("status").getValue().toString()),
                             Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                             Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
                     Log.d("Tag1", snapshot.toString());
 
                     orderListAdapter1.notifyDataSetChanged();
@@ -255,7 +262,8 @@ public class MainActivity extends AppCompatActivity {
                             Integer.parseInt(snapshot.child("status").getValue().toString()),
                             Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                             Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
                     Log.d("checkList", "q" + pending_accepted_list.size());
                     Log.d("Tag2", snapshot.toString());
                     orderListAdapter2.notifyDataSetChanged();
@@ -265,7 +273,8 @@ public class MainActivity extends AppCompatActivity {
                             Integer.parseInt(snapshot.child("status").getValue().toString()),
                             Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                             Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
                     Log.d("Tag3", snapshot.toString());
                     orderListAdapter3.notifyDataSetChanged();
                 }
@@ -287,7 +296,8 @@ public class MainActivity extends AppCompatActivity {
                             Integer.parseInt(snapshot.child("status").getValue().toString()),
                             Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                             Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
                     Log.d("Tag1", snapshot.toString());
 
                     orderListAdapter1.notifyDataSetChanged();
@@ -297,7 +307,8 @@ public class MainActivity extends AppCompatActivity {
                             Integer.parseInt(snapshot.child("status").getValue().toString()),
                             Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                             Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
                     Log.d("Tag2", snapshot.toString());
                     orderListAdapter2.notifyDataSetChanged();
                 } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 2) {
@@ -306,7 +317,8 @@ public class MainActivity extends AppCompatActivity {
                             Integer.parseInt(snapshot.child("status").getValue().toString()),
                             Integer.parseInt(snapshot.child("user_id").getValue().toString()),
                             Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString())));
+                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
                     Log.d("Tag3", snapshot.toString());
                     orderListAdapter3.notifyDataSetChanged();
                 }

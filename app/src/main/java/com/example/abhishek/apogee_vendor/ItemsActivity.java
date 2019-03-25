@@ -73,6 +73,8 @@ public class ItemsActivity extends AppCompatActivity {
         orderIdvalue = Integer.parseInt(orderId.replaceAll("[^0-9]",""));
         SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
         final int vid=prefs.getInt("ID",0);
+        final boolean otp_seen = prefs.getBoolean("otp_seen",true);
+        bFinish.setClickable(otp_seen);
         final String JWT = "JWT ".concat(prefs.getString("JWT",""));
         database= FirebaseDatabase.getInstance();
         final FirebaseDatabase name =FirebaseDatabase.getInstance();
@@ -213,6 +215,8 @@ public class ItemsActivity extends AppCompatActivity {
 
 
 
+
+
         mAPIService = ApiUtils.getAPIService();
        bAccept.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -234,6 +238,8 @@ public class ItemsActivity extends AppCompatActivity {
        bFinish.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+               if(!otp_seen)
+                   Toast.makeText(ItemsActivity.this,"Please check the otp from user",Toast.LENGTH_SHORT).show();
                advance_request_body request_body = new advance_request_body(orderIdvalue);
                sendAdvacePost(request_body,JWT,status);
            }

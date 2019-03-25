@@ -3,10 +3,10 @@ package com.example.abhishek.apogee_vendor.model;
 public class menu_model {
     String menuname;
     String price;
-    Boolean availablity;
+    boolean availablity;
     String item_id;
 
-    public menu_model(String menuname , String price , Boolean availablity,String item_id)
+    public menu_model(String menuname , String price , boolean availablity,String item_id)
     {
         this.menuname = menuname;
         this.price=price;
@@ -19,7 +19,7 @@ public class menu_model {
     public String getMenuname() {
         return menuname;
     }
-    public Boolean getAvailablity()
+    public boolean getAvailablity()
     {
         return availablity;
     }
