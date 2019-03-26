@@ -18,11 +18,4 @@ public class login_request_body {
         this.reg_token=reg_token;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }

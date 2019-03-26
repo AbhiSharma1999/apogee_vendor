@@ -39,7 +39,7 @@ public interface APIService {
     @Headers({"Content-Type:application/json","X-Wallet-Token:ec123dac-339b-41ba-bca4-d3cab464083d"} )
     Call<decline_post> savedecline_post(@Body decline_request_body jsonObject , @Header("Authorization")String JWT);
 
-    @POST("vendor/items/availability")
+    @POST("vendor/items/toggle_availability")
     @Headers({"Content-Type:application/json","X-Wallet-Token:ec123dac-339b-41ba-bca4-d3cab464083d"} )
     Call<toggle_post>savetoggle_post(@Body toggle_request_body body , @Header("Authorization")String JWT);
 }

@@ -19,10 +19,12 @@ import com.example.abhishek.apogee_vendor.fragment.finished_declined_fragment;
 import com.example.abhishek.apogee_vendor.fragment.pending_accepted_fragment;
 import com.example.abhishek.apogee_vendor.fragment.ready_fragment;
 import com.example.abhishek.apogee_vendor.model.orders_model;
+import com.example.abhishek.apogee_vendor.model.static_menu_model;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,8 @@ import static com.example.abhishek.apogee_vendor.fragment.ready_fragment.ready_l
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+//    public static ArrayList<String> namelist = new ArrayList<>();
+    public static ArrayList<static_menu_model> namelist = new ArrayList<>();
     /*static ArrayList<orders_model> finished_declined_list= new ArrayList<>();
     static ArrayList<orders_model> pending_accepted_list = new ArrayList<>();
     static ArrayList<orders_model> ready_list = new ArrayList<>();
@@ -61,7 +65,84 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
-         vendorId = ""+vendor;
+        vendorId = ""+vendor;
+
+        final FirebaseDatabase name =FirebaseDatabase.getInstance();
+        name.getReference().child("vendors").child("vendor - "+vendor).child("menu").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(namelist!=null)
+                    namelist.clear();
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    namelist.add(new static_menu_model(ds.getKey(),ds.child("name").getValue().toString()));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
+//        final FirebaseDatabase name =FirebaseDatabase.getInstance();
+//
+//        Log.d("items_vendor_id","vendor - "+vendor);
+//
+//
+//        name.getReference().child("vendors").child("vendor - "+vendor).child("menu").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                Log.d("MenuArraylist1",dataSnapshot.toString());
+//                namelist.add(dataSnapshot.child("name").getValue().toString());
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                Log.d("MenuArraylist2",dataSnapshot.toString());
+//                namelist.add(dataSnapshot.child("name").getValue().toString());
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         viewPager = (ViewPager)findViewById(R.id.viewpager);
         TabLayout tabLayout=(TabLayout)findViewById(R.id.tablayout);
 
@@ -99,153 +180,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        database.getReference().child("vendors").child("vendor - " + vendorId).child("orders").addChildEventListener(new ChildEventListener() {
+        database.getReference().child("vendors").child("vendor - " + vendorId).child("orders").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String s) {
-
-                Log.d("VendorId", 56 + "fwfwf");
-                Log.d("VendorId", snapshot.toString());
-
-                    /*finished_declined_list.clear();
-                    pending_accepted_list.clear();
-                    ready_list.clear();*/
-                //for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                if (snapshot.child("status").getValue() == null) {
-                    Log.d("mycheck", "NULL");
-                }
-
-                if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 3 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 4) {
-                    finished_declined_list.add(new orders_model(snapshot.getKey(),
-                            snapshot.child("timestamp").getValue().toString(),
-                            Integer.parseInt(snapshot.child("status").getValue().toString()),
-                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
-                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString()),
-                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
-                    Log.d("Tag1", snapshot.toString());
-
-                    orderListAdapter1.notifyDataSetChanged();
-                } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 0 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 1) {
-                    pending_accepted_list.add(new orders_model(snapshot.getKey(),
-                            snapshot.child("timestamp").getValue().toString(),
-                            Integer.parseInt(snapshot.child("status").getValue().toString()),
-                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
-                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString()),
-                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
-                    Log.d("checkList", "q" + pending_accepted_list.size());
-                    Log.d("Tag2", snapshot.toString());
-                    orderListAdapter2.notifyDataSetChanged();
-                } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 2) {
-                    ready_list.add(new orders_model(snapshot.getKey(),
-                            snapshot.child("timestamp").getValue().toString(),
-                            Integer.parseInt(snapshot.child("status").getValue().toString()),
-                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
-                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString()),
-                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
-                    Log.d("Tag3", snapshot.toString());
-                    orderListAdapter3.notifyDataSetChanged();
-                }
-                // }
-            }
-
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                    /*finished_declined_list.clear();
-                    pending_accepted_list.clear();
-                    ready_list.clear();*/
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(pending_accepted_list!=null && finished_declined_list!=null && ready_list!=null){
+                finished_declined_list.clear();
+                pending_accepted_list.clear();
+                ready_list.clear();}
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 3 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 4) {
-                        finished_declined_list.add(new orders_model(snapshot.getKey(),
-                                snapshot.child("timestamp").getValue().toString(),
-                                Integer.parseInt(snapshot.child("status").getValue().toString()),
-                                Integer.parseInt(snapshot.child("user_id").getValue().toString()),
-                                Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                                Integer.parseInt(snapshot.child("price").getValue().toString()),
-                                Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
-                        Log.d("Tag1", snapshot.toString());
-
-                        orderListAdapter1.notifyDataSetChanged();
-                    } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 0 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 1) {
-                        pending_accepted_list.add(new orders_model(snapshot.getKey(),
-                                snapshot.child("timestamp").getValue().toString(),
-                                Integer.parseInt(snapshot.child("status").getValue().toString()),
-                                Integer.parseInt(snapshot.child("user_id").getValue().toString()),
-                                Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                                Integer.parseInt(snapshot.child("price").getValue().toString()),
-                                Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
-                        Log.d("Tag2", snapshot.toString());
-                        orderListAdapter2.notifyDataSetChanged();
-                    } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 2) {
-                        ready_list.add(new orders_model(snapshot.getKey(),
-                                snapshot.child("timestamp").getValue().toString(),
-                                Integer.parseInt(snapshot.child("status").getValue().toString()),
-                                Integer.parseInt(snapshot.child("user_id").getValue().toString()),
-                                Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                                Integer.parseInt(snapshot.child("price").getValue().toString()),
-                                Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
-                        Log.d("Tag3", snapshot.toString());
-                        orderListAdapter3.notifyDataSetChanged();
-                    }
-                }
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-
-
-    @Override
-    public void onRestart()
-    {
-        super.onRestart();
-        if (finished_declined_list != null) {
-            finished_declined_list.clear();
-        }
-        if (pending_accepted_list != null) {
-            pending_accepted_list.clear();
-        }
-        if (ready_list != null) {
-            ready_list.clear();
-        }
-
-
-        database.getReference().child("vendors").child("vendor - " + vendorId).child("orders").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String s) {
-
-                Log.d("VendorId", 56 + "fwfwf");
-                Log.d("VendorId", snapshot.toString());
-
-                    /*finished_declined_list.clear();
-                    pending_accepted_list.clear();
-                    ready_list.clear();*/
-                //for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                if (snapshot.child("status").getValue() == null) {
-                    Log.d("mycheck", "NULL");
-                }
-
-                if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 3 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 4) {
                     finished_declined_list.add(new orders_model(snapshot.getKey(),
                             snapshot.child("timestamp").getValue().toString(),
                             Integer.parseInt(snapshot.child("status").getValue().toString()),
@@ -278,61 +221,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("Tag3", snapshot.toString());
                     orderListAdapter3.notifyDataSetChanged();
                 }
-                // }
-            }
 
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String s) {
-
-                    /*finished_declined_list.clear();
-                    pending_accepted_list.clear();
-                    ready_list.clear();*/
-                //for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-
-                if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 3 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 4) {
-                    finished_declined_list.add(new orders_model(snapshot.getKey(),
-                            snapshot.child("timestamp").getValue().toString(),
-                            Integer.parseInt(snapshot.child("status").getValue().toString()),
-                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
-                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString()),
-                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
-                    Log.d("Tag1", snapshot.toString());
-
-                    orderListAdapter1.notifyDataSetChanged();
-                } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 0 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 1) {
-                    pending_accepted_list.add(new orders_model(snapshot.getKey(),
-                            snapshot.child("timestamp").getValue().toString(),
-                            Integer.parseInt(snapshot.child("status").getValue().toString()),
-                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
-                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString()),
-                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
-                    Log.d("Tag2", snapshot.toString());
-                    orderListAdapter2.notifyDataSetChanged();
-                } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 2) {
-                    ready_list.add(new orders_model(snapshot.getKey(),
-                            snapshot.child("timestamp").getValue().toString(),
-                            Integer.parseInt(snapshot.child("status").getValue().toString()),
-                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
-                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
-                            Integer.parseInt(snapshot.child("price").getValue().toString()),
-                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
-                    Log.d("Tag3", snapshot.toString());
-                    orderListAdapter3.notifyDataSetChanged();
                 }
-            //}
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
             }
 
             @Override
@@ -340,7 +230,249 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+//        database.getReference().child("vendors").child("vendor - " + vendorId).child("orders").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String s) {
+//
+//                Log.d("VendorId", 56 + "fwfwf");
+//                Log.d("VendorId", snapshot.toString());
+//
+//                    /*finished_declined_list.clear();
+//                    pending_accepted_list.clear();
+//                    ready_list.clear();*/
+//                //for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//
+//                if (snapshot.child("status").getValue() == null) {
+//                    Log.d("mycheck", "NULL");
+//                }
+//
+//                if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 3 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 4) {
+//                    finished_declined_list.add(new orders_model(snapshot.getKey(),
+//                            snapshot.child("timestamp").getValue().toString(),
+//                            Integer.parseInt(snapshot.child("status").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+//                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
+//                    Log.d("Tag1", snapshot.toString());
+//
+//                    orderListAdapter1.notifyDataSetChanged();
+//                } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 0 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 1) {
+//                    pending_accepted_list.add(new orders_model(snapshot.getKey(),
+//                            snapshot.child("timestamp").getValue().toString(),
+//                            Integer.parseInt(snapshot.child("status").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+//                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
+//                    Log.d("checkList", "q" + pending_accepted_list.size());
+//                    Log.d("Tag2", snapshot.toString());
+//                    orderListAdapter2.notifyDataSetChanged();
+//                } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 2) {
+//                    ready_list.add(new orders_model(snapshot.getKey(),
+//                            snapshot.child("timestamp").getValue().toString(),
+//                            Integer.parseInt(snapshot.child("status").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+//                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
+//                    Log.d("Tag3", snapshot.toString());
+//                    orderListAdapter3.notifyDataSetChanged();
+//                }
+//                // }
+//            }
+
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                    /*finished_declined_list.clear();
+//                    pending_accepted_list.clear();
+//                    ready_list.clear();*/
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//
+//                    if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 3 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 4) {
+//                        finished_declined_list.add(new orders_model(snapshot.getKey(),
+//                                snapshot.child("timestamp").getValue().toString(),
+//                                Integer.parseInt(snapshot.child("status").getValue().toString()),
+//                                Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+//                                Integer.parseInt(snapshot.child("otp").getValue().toString()),
+//                                Integer.parseInt(snapshot.child("price").getValue().toString()),
+//                                Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
+//                        Log.d("Tag1", snapshot.toString());
+//
+//                        orderListAdapter1.notifyDataSetChanged();
+//                    } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 0 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 1) {
+//                        pending_accepted_list.add(new orders_model(snapshot.getKey(),
+//                                snapshot.child("timestamp").getValue().toString(),
+//                                Integer.parseInt(snapshot.child("status").getValue().toString()),
+//                                Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+//                                Integer.parseInt(snapshot.child("otp").getValue().toString()),
+//                                Integer.parseInt(snapshot.child("price").getValue().toString()),
+//                                Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
+//                        Log.d("Tag2", snapshot.toString());
+//                        orderListAdapter2.notifyDataSetChanged();
+//                    } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 2) {
+//                        ready_list.add(new orders_model(snapshot.getKey(),
+//                                snapshot.child("timestamp").getValue().toString(),
+//                                Integer.parseInt(snapshot.child("status").getValue().toString()),
+//                                Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+//                                Integer.parseInt(snapshot.child("otp").getValue().toString()),
+//                                Integer.parseInt(snapshot.child("price").getValue().toString()),
+//                                Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
+//                        Log.d("Tag3", snapshot.toString());
+//                        orderListAdapter3.notifyDataSetChanged();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
     }
+
+
+
+//    @Override
+//    public void onRestart()
+//    {
+//        super.onRestart();
+//        if (finished_declined_list != null) {
+//            finished_declined_list.clear();
+//        }
+//        if (pending_accepted_list != null) {
+//            pending_accepted_list.clear();
+//        }
+//        if (ready_list != null) {
+//            ready_list.clear();
+//        }
+//
+//
+//        database.getReference().child("vendors").child("vendor - " + vendorId).child("orders").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String s) {
+//
+//                Log.d("VendorId", 56 + "fwfwf");
+//                Log.d("VendorId", snapshot.toString());
+//
+//                    /*finished_declined_list.clear();
+//                    pending_accepted_list.clear();
+//                    ready_list.clear();*/
+//                //for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//
+//                if (snapshot.child("status").getValue() == null) {
+//                    Log.d("mycheck", "NULL");
+//                }
+//
+//                if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 3 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 4) {
+//                    finished_declined_list.add(new orders_model(snapshot.getKey(),
+//                            snapshot.child("timestamp").getValue().toString(),
+//                            Integer.parseInt(snapshot.child("status").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+//                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
+//                    Log.d("Tag1", snapshot.toString());
+//
+//                    orderListAdapter1.notifyDataSetChanged();
+//                } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 0 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 1) {
+//                    pending_accepted_list.add(new orders_model(snapshot.getKey(),
+//                            snapshot.child("timestamp").getValue().toString(),
+//                            Integer.parseInt(snapshot.child("status").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+//                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
+//                    Log.d("checkList", "q" + pending_accepted_list.size());
+//                    Log.d("Tag2", snapshot.toString());
+//                    orderListAdapter2.notifyDataSetChanged();
+//                } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 2) {
+//                    ready_list.add(new orders_model(snapshot.getKey(),
+//                            snapshot.child("timestamp").getValue().toString(),
+//                            Integer.parseInt(snapshot.child("status").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+//                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
+//                    Log.d("Tag3", snapshot.toString());
+//                    orderListAdapter3.notifyDataSetChanged();
+//                }
+//                // }
+//            }
+//
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String s) {
+//
+//                    /*finished_declined_list.clear();
+//                    pending_accepted_list.clear();
+//                    ready_list.clear();*/
+//                //for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//
+//                if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 3 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 4) {
+//                    finished_declined_list.add(new orders_model(snapshot.getKey(),
+//                            snapshot.child("timestamp").getValue().toString(),
+//                            Integer.parseInt(snapshot.child("status").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+//                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
+//                    Log.d("Tag1", snapshot.toString());
+//
+//                    orderListAdapter1.notifyDataSetChanged();
+//                } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 0 || Integer.parseInt(snapshot.child("status").getValue().toString()) == 1) {
+//                    pending_accepted_list.add(new orders_model(snapshot.getKey(),
+//                            snapshot.child("timestamp").getValue().toString(),
+//                            Integer.parseInt(snapshot.child("status").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+//                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
+//                    Log.d("Tag2", snapshot.toString());
+//                    orderListAdapter2.notifyDataSetChanged();
+//                } else if (Integer.parseInt(snapshot.child("status").getValue().toString()) == 2) {
+//                    ready_list.add(new orders_model(snapshot.getKey(),
+//                            snapshot.child("timestamp").getValue().toString(),
+//                            Integer.parseInt(snapshot.child("status").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("user_id").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("otp").getValue().toString()),
+//                            Integer.parseInt(snapshot.child("price").getValue().toString()),
+//                            Boolean.parseBoolean(snapshot.child("otp_seen").getValue().toString())));
+//                    Log.d("Tag3", snapshot.toString());
+//                    orderListAdapter3.notifyDataSetChanged();
+//                }
+//            //}
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 
 
 

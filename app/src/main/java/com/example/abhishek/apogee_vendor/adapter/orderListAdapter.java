@@ -58,7 +58,7 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
         if((ordersModelList.get(position).getStatus()+"").equals("1"))
         {
             holder.status.setText(R.string.status1);
-            holder.status.setTextColor(Color.parseColor("##00800"));
+            holder.status.setTextColor(Color.parseColor("#008000"));
         }
 
         if((ordersModelList.get(position).getStatus()+"").equals("2"))

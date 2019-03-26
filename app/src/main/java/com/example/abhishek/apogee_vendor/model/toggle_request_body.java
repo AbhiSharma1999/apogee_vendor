@@ -5,10 +5,10 @@ package com.example.abhishek.apogee_vendor.model;
  */
 
 public class toggle_request_body {
-    final int item_Id;
+    final int item_id;
 
-    public toggle_request_body(int item_Id)
+    public toggle_request_body(int item_id)
     {
-        this.item_Id=item_Id;
+        this.item_id=item_id;
     }
 }

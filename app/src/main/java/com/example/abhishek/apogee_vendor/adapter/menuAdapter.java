@@ -18,6 +18,7 @@ import com.example.abhishek.apogee_vendor.model.menu_model;
 import com.example.abhishek.apogee_vendor.model.toggle_post;
 import com.example.abhishek.apogee_vendor.model.toggle_request_body;
 import com.example.abhishek.apogee_vendor.remote.APIService;
+import com.example.abhishek.apogee_vendor.remote.ApiUtils;
 
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class menuAdapter extends RecyclerView.Adapter<menuAdapter.ViewHolder> {
      Context context;
      String JWT;
      public APIService mAPIService;
+
     public menuAdapter(ArrayList<menu_model>  nmenlist , String JWT) {
         this.menlist = nmenlist;
         this.JWT = JWT;
@@ -46,12 +48,14 @@ public class menuAdapter extends RecyclerView.Adapter<menuAdapter.ViewHolder> {
        holder.Name.setText(menlist.get(position).getMenuname());
        holder.Price.setText(menlist.get(position).getPrice());
         holder.toggle.setChecked(menlist.get(position).getAvailablity());
+        mAPIService = ApiUtils.getAPIService();
        holder.toggle.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                boolean requesttoggle = !menlist.get(position).getAvailablity();
-               toggle_request_body t =new toggle_request_body(Integer.parseInt(menlist.get(position).getItem_id()));
-               sendPost(t,JWT,holder,requesttoggle);
+               toggle_request_body request_body =new toggle_request_body(Integer.parseInt(menlist.get(position).getItem_id()));
+               Log.d("qwerty",menlist.get(position).getItem_id()+JWT+requesttoggle);
+               sendPost(request_body,JWT,holder,requesttoggle);
                holder.toggle.setChecked(requesttoggle);
 
 
@@ -74,7 +78,7 @@ public class menuAdapter extends RecyclerView.Adapter<menuAdapter.ViewHolder> {
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            mView = itemView;
             Name = (TextView)mView.findViewById(R.id.name);
             Price = (TextView)mView.findViewById(R.id.price);
             toggle=(Switch)mView.findViewById(R.id.switch1);
@@ -89,10 +93,12 @@ public class menuAdapter extends RecyclerView.Adapter<menuAdapter.ViewHolder> {
             @Override
             public void onResponse(Call<toggle_post> call, Response<toggle_post> response) {
                 Log.d("toggleresponse",response.code()+"");
-                Toast.makeText(context,"responsecode"+response.code(),Toast.LENGTH_SHORT).show();
+                response.body();
+                //Toast.makeText(context,"responsecode"+response.code(),Toast.LENGTH_SHORT).show();
                 if(!response.isSuccessful())
                 {
                     view.toggle.setChecked(!b);
+                    menlist.clear();
                 }
 
 

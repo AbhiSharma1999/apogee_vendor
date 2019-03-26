@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class TotalActivity extends AppCompatActivity {
+
+    String a="check";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,30 +37,12 @@ public class TotalActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mDatabase.child("vendors").child(vendorId).child("earnings").addChildEventListener(new ChildEventListener() {
+        mDatabase.child("vendors").child(vendorId).child("earnings").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.d("TotalCheck",dataSnapshot.toString());
-                int earnings = Integer.parseInt(dataSnapshot.getValue().toString());
-                earning.setText(earnings);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.d("TotalCheck",dataSnapshot.toString());
-                int earnings = Integer.parseInt(dataSnapshot.getValue().toString());
-                earning.setText(earnings);
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               // Toast.makeText(TotalActivity.this , "datasnapshot:"+dataSnapshot.toString() , Toast.LENGTH_LONG).show();
+                a = dataSnapshot.getValue().toString();
+                earning.setText("Total Earnings:Rs."+a);
             }
 
             @Override
@@ -65,6 +50,7 @@ public class TotalActivity extends AppCompatActivity {
 
             }
         });
+        //earning.setText(a);
 
     }
 }

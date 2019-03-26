@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.abhishek.apogee_vendor.adapter.menuAdapter;
 import com.example.abhishek.apogee_vendor.model.menu_model;
@@ -25,9 +26,6 @@ import java.util.ArrayList;
 public class MenuActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     menuAdapter adapter;
-    SharedPreferences sp = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
-    int vendor = sp.getInt("ID" , 0);
-    String JWT = sp.getString("JWT",null);
     ArrayList<menu_model> menulist=new ArrayList<>();
 
   //  Button item_switch;
@@ -38,53 +36,86 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        if(menulist!=null)
+        {
+            menulist.clear();
+        }
+
      //   item_switch = (Button)findViewById(R.id.switch1);
         recyclerView=findViewById(R.id.menuRecycler);
 
         SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
         String vid=prefs.getInt("ID",0)+"";
+        String JWT ="JWT "+ prefs.getString("JWT",null);
        final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-       database.getReference().child("vendors").child("vendor - "+vid).child("menu").addChildEventListener(new ChildEventListener() {
-           @Override
-           public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-               Log.d("MenuActivity1",dataSnapshot.toString());
-               String name = dataSnapshot.child("name").getValue().toString();
-               String price = dataSnapshot.child("price").getValue().toString();
-               String availablity = dataSnapshot.child("is_available").getValue().toString();
-               String item_id = dataSnapshot.getKey().toString();
+//       database.getReference().child("vendors").child("vendor - "+vid).child("menu").addChildEventListener(new ChildEventListener() {
+//
+//           @Override
+//           public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//               Log.d("MenuActivity1",dataSnapshot.toString());
+//               String name = dataSnapshot.child("name").getValue().toString();
+//               String price = dataSnapshot.child("price").getValue().toString();
+//               String availablity = dataSnapshot.child("is_available").getValue().toString();
+//               String item_id = dataSnapshot.getKey().toString();
+//
+//               menulist.add(new menu_model(name,price,Boolean.parseBoolean(availablity),item_id));
+////               menulist.add(Integer.parseInt(dataSnapshot.getKey()), new menu_model(name,price,Boolean.parseBoolean(availablity),item_id));
+//               adapter.notifyDataSetChanged();
+//
+//
+//           }
+//
+//           @Override
+//           public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//               Log.d("MenuActivity2",dataSnapshot.toString());
+//               String name = dataSnapshot.child("name").getValue().toString();
+//               String price = dataSnapshot.child("price").getValue().toString();
+//               String availablity = dataSnapshot.child("is_available").getValue().toString();
+//               String item_id = dataSnapshot.getKey().toString();
+//               menulist.add(new menu_model(name,price,Boolean.parseBoolean(availablity),item_id));
+////               menulist.add(Integer.parseInt(dataSnapshot.getKey()), new menu_model(name,price,Boolean.parseBoolean(availablity),item_id));
+//                adapter.notifyDataSetChanged();
+//
+//           }
+//
+//           @Override
+//           public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//           }
+//
+//           @Override
+//           public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//           }
+//
+//           @Override
+//           public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//           }
+//       });
 
-               menulist.add(new menu_model(name,price,Boolean.parseBoolean(availablity),item_id));
+        database.getReference().child("vendors").child("vendor - "+vid).child("menu").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Toast.makeText(MenuActivity.this, dataSnapshot.toString(), Toast.LENGTH_SHORT).show();
+                menulist.clear();
+                for(DataSnapshot menuItemSnapshot: dataSnapshot.getChildren()) {
+                    String itemId = menuItemSnapshot.getKey();
+                    boolean isAvailable = (Boolean) menuItemSnapshot.child("is_available").getValue();
+                    String name = menuItemSnapshot.child("name").getValue().toString();
+                    String price = menuItemSnapshot.child("price").getValue().toString();
+                    menulist.add(new menu_model(name, price, isAvailable, itemId));
+                    adapter.notifyDataSetChanged();
+                }
+            }
 
-           }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-           @Override
-           public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-               Log.d("MenuActivity2",dataSnapshot.toString());
-               String name = dataSnapshot.child("name").getValue().toString();
-               String price = dataSnapshot.child("price").getValue().toString();
-               String availablity = dataSnapshot.child("is_available").getValue().toString();
-               String item_id = dataSnapshot.getKey().toString();
-               menulist.add(new menu_model(name,price,Boolean.parseBoolean(availablity),item_id));
+            }
+        });
 
-
-           }
-
-           @Override
-           public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-           }
-
-           @Override
-           public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-           }
-
-           @Override
-           public void onCancelled(@NonNull DatabaseError databaseError) {
-
-           }
-       });
         adapter=new menuAdapter(menulist,JWT);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);

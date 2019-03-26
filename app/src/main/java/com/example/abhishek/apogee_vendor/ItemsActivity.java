@@ -19,6 +19,7 @@ import com.example.abhishek.apogee_vendor.model.advance_request_body;
 import com.example.abhishek.apogee_vendor.model.decline_post;
 import com.example.abhishek.apogee_vendor.model.decline_request_body;
 import com.example.abhishek.apogee_vendor.model.items_model;
+import com.example.abhishek.apogee_vendor.model.static_menu_model;
 import com.example.abhishek.apogee_vendor.remote.APIService;
 import com.example.abhishek.apogee_vendor.remote.ApiUtils;
 import com.firebase.client.Firebase;
@@ -37,14 +38,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.abhishek.apogee_vendor.MainActivity.namelist;
+
 public class ItemsActivity extends AppCompatActivity {
      private FirebaseDatabase database;
     // private items_model obj=new items_model();
      public ArrayList<items_model> nlist=new ArrayList<>();
      RecyclerView recyclerView;
-     public  ArrayList<String> namelist = new ArrayList<>();
+     //public  ArrayList<String> namelist = new ArrayList<>();
      itemListAdapter adapter;
      int orderIdvalue;
+     boolean otp_seen;
      private APIService mAPIService;
     public Button bAccept ,bDecline , bReady ,bFinish;
     @Override
@@ -54,7 +58,7 @@ public class ItemsActivity extends AppCompatActivity {
 
 
 
-
+        mAPIService = ApiUtils.getAPIService();
        bAccept=(Button)findViewById(R.id.button_accept);
        bDecline=(Button)findViewById(R.id.button_decline);
        bFinish=(Button)findViewById(R.id.button_finish);
@@ -62,22 +66,37 @@ public class ItemsActivity extends AppCompatActivity {
 
        if(nlist!=null)
         nlist.clear();
-       if (namelist!=null)
-           namelist.clear();
 
         recyclerView=findViewById(R.id.itemsRecycler);
 
         Intent intent=getIntent();
         final String orderId=intent.getStringExtra("orderId");
         final int status = intent.getIntExtra("status",0);
+
         orderIdvalue = Integer.parseInt(orderId.replaceAll("[^0-9]",""));
         SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
         final int vid=prefs.getInt("ID",0);
-        final boolean otp_seen = prefs.getBoolean("otp_seen",true);
-        bFinish.setClickable(otp_seen);
+
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase.child("vendors").child("vendor - "+vid).child("orders").child(orderId).child("otp_seen").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                otp_seen = (Boolean)dataSnapshot.getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        //bFinish.setClickable(otp_seen);
         final String JWT = "JWT ".concat(prefs.getString("JWT",""));
         database= FirebaseDatabase.getInstance();
-        final FirebaseDatabase name =FirebaseDatabase.getInstance();
+       /* final FirebaseDatabase name =FirebaseDatabase.getInstance();
 
             Log.d("items_vendor_id","vendor - "+vid);
 
@@ -110,11 +129,11 @@ public class ItemsActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
 
 
-           database.getReference().child("vendors").child("vendor - "+vid).child("orders").child(orderId)
+          /* database.getReference().child("vendors").child("vendor - "+vid).child("orders").child(orderId)
                    .child("items").addChildEventListener(new ChildEventListener() {
 
 
@@ -135,7 +154,7 @@ public class ItemsActivity extends AppCompatActivity {
                    obj.setItemVal(ds.getValue().toString());
                    Log.d("check", obj.toString());
                    nlist.add(obj);*/
-                    Log.d("Items_check",ds.toString());
+                  /*  Log.d("Items_check",ds.toString());
                    int key = Integer.parseInt(ds.getKey());
                    //String item_name = ds.child("vendors").child("vendor - "+vid).child("menu").child(""+key).child("name").getValue().toString();
                    String item_name = namelist.get(key-1);
@@ -162,13 +181,13 @@ public class ItemsActivity extends AppCompatActivity {
 
                        obj.setItemVal(ds.getValue().toString());
                        Log.d("check", obj.toString());
-                       nlist.add(obj);
+                       nlist.add(obj);*/
 
 
-                   adapter.notifyDataSetChanged();*/
-                   Log.d("Items_check",ds.toString());
-                   int key = Integer.parseInt(ds.getKey());
-                   //String item_name = ds.child("vendors").child("vendor - "+vid).child("menu").child(""+key).child("name").getValue().toString();
+                 /*  adapter.notifyDataSetChanged();*/
+                 //  Log.d("Items_check",ds.toString());
+                   /*int key = Integer.parseInt(ds.getKey());
+                   String item_name = ds.child("vendors").child("vendor - "+vid).child("menu").child(""+key).child("name").getValue().toString();
                    String item_name = namelist.get(key-1);
                    String item_val = ds.getValue().toString();
                    nlist.add(new items_model(item_name,item_val));
@@ -189,7 +208,35 @@ public class ItemsActivity extends AppCompatActivity {
                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                }
-           });
+           });*/
+        database.getReference().child("vendors").child("vendor - "+vid).child("orders").child(orderId)
+                .child("items").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    String key =ds.getKey();
+                    String item_name="Check again";
+                    Toast.makeText(ItemsActivity.this,namelist.toString(),Toast.LENGTH_LONG).show();
+                    for(int x=0;x<namelist.size();x++)
+                    {
+                        static_menu_model list = namelist.get(x);
+                        if(list.getKey().equals(key))
+                        {
+                            item_name = list.getValue();
+                        }
+                    }
+                    String item_val = ds.getValue().toString();
+                    nlist.add(new items_model(item_name,item_val));
+                    adapter.notifyDataSetChanged();
+                }
+                }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         adapter=new itemListAdapter(nlist);
         recyclerView.setAdapter(adapter);
 
@@ -238,10 +285,10 @@ public class ItemsActivity extends AppCompatActivity {
        bFinish.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               if(!otp_seen)
+               if(otp_seen)
                    Toast.makeText(ItemsActivity.this,"Please check the otp from user",Toast.LENGTH_SHORT).show();
-               advance_request_body request_body = new advance_request_body(orderIdvalue);
-               sendAdvacePost(request_body,JWT,status);
+              else{ advance_request_body request_body = new advance_request_body(orderIdvalue);
+               sendAdvacePost(request_body,JWT,status);}
            }
        });
        bDecline.setOnClickListener(new View.OnClickListener() {
@@ -276,12 +323,15 @@ public class ItemsActivity extends AppCompatActivity {
                     {
                         bAccept.setVisibility(View.GONE);
                         bDecline.setVisibility(View.GONE);
+                        bReady.setVisibility(View.GONE);
                         bFinish.setVisibility(View.VISIBLE);
                     }
                     else if(status==2)
                     {
                         bAccept.setVisibility(View.GONE);
                         bDecline.setVisibility(View.GONE);
+                        bReady.setVisibility(View.GONE);
+                        bFinish.setVisibility(View.GONE);
                     }
                 }
                 else
