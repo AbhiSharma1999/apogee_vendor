@@ -49,6 +49,7 @@ public class ItemsActivity extends AppCompatActivity {
      itemListAdapter adapter;
      int orderIdvalue;
      boolean otp_seen;
+     int status;
      private APIService mAPIService;
     public Button bAccept ,bDecline , bReady ,bFinish;
     @Override
@@ -71,7 +72,7 @@ public class ItemsActivity extends AppCompatActivity {
 
         Intent intent=getIntent();
         final String orderId=intent.getStringExtra("orderId");
-        final int status = intent.getIntExtra("status",0);
+        //final int status = intent.getIntExtra("status",0);
 
         orderIdvalue = Integer.parseInt(orderId.replaceAll("[^0-9]",""));
         SharedPreferences prefs = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
@@ -84,6 +85,21 @@ public class ItemsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 otp_seen = (Boolean)dataSnapshot.getValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        DatabaseReference mStatus =FirebaseDatabase.getInstance().getReference();
+
+        mStatus.child("vendors").child("vendor - "+vid).child("orders").child(orderId).child("status").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                status = (Integer)dataSnapshot.getValue();
             }
 
             @Override
