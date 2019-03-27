@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.abhishek.apogee_vendor.adapter.menuAdapter;
@@ -27,6 +29,7 @@ public class MenuActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     menuAdapter adapter;
     ArrayList<menu_model> menulist=new ArrayList<>();
+    ProgressBar menu_progressbar = (ProgressBar)findViewById(R.id.menu_progressbar);
 
   //  Button item_switch;
 
@@ -40,6 +43,7 @@ public class MenuActivity extends AppCompatActivity {
         {
             menulist.clear();
         }
+        menu_progressbar.setVisibility(View.VISIBLE);
 
      //   item_switch = (Button)findViewById(R.id.switch1);
         recyclerView=findViewById(R.id.menuRecycler);
@@ -99,6 +103,7 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Toast.makeText(MenuActivity.this, dataSnapshot.toString(), Toast.LENGTH_SHORT).show();
+                menu_progressbar.setVisibility(View.GONE);
                 menulist.clear();
                 for(DataSnapshot menuItemSnapshot: dataSnapshot.getChildren()) {
                     String itemId = menuItemSnapshot.getKey();

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.abhishek.apogee_vendor.adapter.itemListAdapter;
@@ -42,6 +43,8 @@ import static com.example.abhishek.apogee_vendor.MainActivity.namelist;
 
 public class ItemsActivity extends AppCompatActivity {
      private FirebaseDatabase database;
+     ProgressBar items_progressbar = (ProgressBar)findViewById(R.id.items_progressbar);
+     ProgressBar buttons_progressbar = (ProgressBar)findViewById(R.id.buttons_progressbar);
     // private items_model obj=new items_model();
      public ArrayList<items_model> nlist=new ArrayList<>();
      RecyclerView recyclerView;
@@ -56,6 +59,7 @@ public class ItemsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items);
+        items_progressbar.setVisibility(View.VISIBLE);
 
 
 
@@ -229,6 +233,7 @@ public class ItemsActivity extends AppCompatActivity {
                 .child("items").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                items_progressbar.setVisibility(View.GONE);
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     String key =ds.getKey();
                     String item_name="Check again";
@@ -285,6 +290,7 @@ public class ItemsActivity extends AppCompatActivity {
            @Override
            public void onClick(View view) {
 
+               buttons_progressbar.setVisibility(View.VISIBLE);
                advance_request_body request_body = new advance_request_body(orderIdvalue);
                sendAdvacePost(request_body,JWT,status);
                 bDecline.setClickable(false);
@@ -294,13 +300,16 @@ public class ItemsActivity extends AppCompatActivity {
        bReady.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+               buttons_progressbar.setVisibility(View.VISIBLE);
                advance_request_body request_body = new advance_request_body(orderIdvalue);
                sendAdvacePost(request_body,JWT,status);
+
            }
        });
        bFinish.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+               buttons_progressbar.setVisibility(View.VISIBLE);
                if(otp_seen)
                    Toast.makeText(ItemsActivity.this,"Please check the otp from user",Toast.LENGTH_SHORT).show();
               else{ advance_request_body request_body = new advance_request_body(orderIdvalue);
@@ -310,6 +319,7 @@ public class ItemsActivity extends AppCompatActivity {
        bDecline.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+               buttons_progressbar.setVisibility(View.VISIBLE);
                decline_request_body request_body = new decline_request_body(orderIdvalue);
                sendDeclinePost(request_body,JWT,status);
                bAccept.setClickable(false);
@@ -324,6 +334,7 @@ public class ItemsActivity extends AppCompatActivity {
         mAPIService.saveadvance_post(orderIdvalue,JWT).enqueue(new Callback<advance_post>() {
             @Override
             public void onResponse(Call<advance_post> call, Response<advance_post> response) {
+                buttons_progressbar.setVisibility(View.GONE);
                 if(response.isSuccessful())
                 {
                     response.body();
@@ -360,6 +371,7 @@ public class ItemsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<advance_post> call, Throwable t) {
                 Toast.makeText(ItemsActivity.this,"Failed to send request",Toast.LENGTH_SHORT).show();
+                buttons_progressbar.setVisibility(View.GONE);
                 if(status==0)
                 {
                     bDecline.setClickable(true);
@@ -375,6 +387,7 @@ public class ItemsActivity extends AppCompatActivity {
         mAPIService.savedecline_post(orderIdvalue,JWT ).enqueue(new Callback<decline_post>() {
             @Override
             public void onResponse(Call<decline_post> call, Response<decline_post> response) {
+                buttons_progressbar.setVisibility(View.GONE);
                 if(response.isSuccessful())
                 {
                     response.body();
@@ -393,6 +406,7 @@ public class ItemsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<decline_post> call, Throwable t) {
+                buttons_progressbar.setVisibility(View.GONE);
                 Toast.makeText(ItemsActivity.this,"Failed to send request",Toast.LENGTH_SHORT).show();
             if(status==0)
             {

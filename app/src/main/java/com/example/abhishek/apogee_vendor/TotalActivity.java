@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,8 @@ public class TotalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_total);
         final TextView earning = (TextView)findViewById(R.id.earnings);
+        final ProgressBar total_progressbar = (ProgressBar)findViewById(R.id.total_progressbar);
+        total_progressbar.setVisibility(View.VISIBLE);
 
 
 
@@ -43,6 +47,7 @@ public class TotalActivity extends AppCompatActivity {
                // Toast.makeText(TotalActivity.this , "datasnapshot:"+dataSnapshot.toString() , Toast.LENGTH_LONG).show();
                 a = dataSnapshot.getValue().toString();
                 earning.setText("Total Earnings:Rs."+a);
+                total_progressbar.setVisibility(View.GONE);
             }
 
             @Override

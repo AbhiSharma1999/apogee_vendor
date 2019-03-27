@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.abhishek.apogee_vendor.adapter.orderListAdapter;
 import com.example.abhishek.apogee_vendor.adapter.pagerAdapter;
@@ -40,6 +42,7 @@ import static com.example.abhishek.apogee_vendor.fragment.ready_fragment.ready_l
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    ProgressBar main_progressbar = (ProgressBar)findViewById(R.id.main_progressbar);
 //    public static ArrayList<String> namelist = new ArrayList<>();
     public static ArrayList<static_menu_model> namelist = new ArrayList<>();
     /*static ArrayList<orders_model> finished_declined_list= new ArrayList<>();
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        main_progressbar.setVisibility(View.VISIBLE);
         SharedPreferences sp = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
         int vendor = sp.getInt("ID" , 0);
         String JWT = sp.getString("JWT",null);
@@ -183,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
         database.getReference().child("vendors").child("vendor - " + vendorId).child("orders").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                main_progressbar.setVisibility(View.GONE);
                 if(pending_accepted_list!=null && finished_declined_list!=null && ready_list!=null){
                 finished_declined_list.clear();
                 pending_accepted_list.clear();

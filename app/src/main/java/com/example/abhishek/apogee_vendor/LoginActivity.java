@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.abhishek.apogee_vendor.model.login_post;
@@ -23,6 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+    ProgressBar login_progressbar = (ProgressBar)findViewById(R.id.login_progressbar);
 
     private APIService mAPIService;
     String JWT="";
@@ -60,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this , "username and password cannot be left blank",Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    login_progressbar.setVisibility(View.VISIBLE);
                     sendPOST(request_body);
 
                 }
@@ -78,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         mAPIService.savelogin_post(requestbody).enqueue(new Callback<login_post>() {
             @Override
             public void onResponse(Call<login_post> call, Response<login_post> response) {
+                login_progressbar.setVisibility(View.GONE);
                 if(response.isSuccessful()){
                   response.body();
                   int userID = response.body().getUserId();
@@ -104,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<login_post> call, Throwable t) {
+                login_progressbar.setVisibility(View.GONE);
                 Log.d("status","Cannot submit the post request");
             }
         });
