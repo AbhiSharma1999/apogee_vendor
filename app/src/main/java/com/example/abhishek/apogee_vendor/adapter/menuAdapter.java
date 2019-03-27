@@ -13,6 +13,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.abhishek.apogee_vendor.MenuActivity;
 import com.example.abhishek.apogee_vendor.R;
 import com.example.abhishek.apogee_vendor.model.menu_model;
 import com.example.abhishek.apogee_vendor.model.toggle_post;
@@ -28,7 +29,6 @@ import retrofit2.Response;
 
 public class menuAdapter extends RecyclerView.Adapter<menuAdapter.ViewHolder> {
      ArrayList<menu_model> menlist=new ArrayList<>();
-     Context context;
      String JWT;
      public APIService mAPIService;
 
@@ -94,7 +94,7 @@ public class menuAdapter extends RecyclerView.Adapter<menuAdapter.ViewHolder> {
             public void onResponse(Call<toggle_post> call, Response<toggle_post> response) {
                 Log.d("toggleresponse",response.code()+"");
                 response.body();
-                Toast.makeText(context,"responsecode"+response.code(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.mView.getContext(),"Successful !!!!!",Toast.LENGTH_SHORT).show();
                 if(!response.isSuccessful())
                 {
                     view.toggle.setChecked(!b);

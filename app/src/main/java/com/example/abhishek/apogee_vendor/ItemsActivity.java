@@ -266,7 +266,6 @@ public class ItemsActivity extends AppCompatActivity {
         });
         adapter=new itemListAdapter(nlist);
         recyclerView.setAdapter(adapter);
-        Toast.makeText(ItemsActivity.this,"Status"+status,Toast.LENGTH_LONG).show();
 
        if(status==1)
        {
@@ -316,10 +315,12 @@ public class ItemsActivity extends AppCompatActivity {
        bFinish.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               buttons_progressbar.setVisibility(View.VISIBLE);
-               if(otp_seen)
+
+               if(!otp_seen)
                    Toast.makeText(ItemsActivity.this,"Please check the otp from user",Toast.LENGTH_SHORT).show();
-              else{ advance_request_body request_body = new advance_request_body(orderIdvalue);
+              else{
+                   buttons_progressbar.setVisibility(View.VISIBLE);
+                  advance_request_body request_body = new advance_request_body(orderIdvalue);
                sendAdvacePost(request_body,JWT,status);}
            }
        });

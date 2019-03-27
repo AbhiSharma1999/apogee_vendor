@@ -14,6 +14,8 @@ import com.example.abhishek.apogee_vendor.R;
 import com.example.abhishek.apogee_vendor.model.orders_model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -24,9 +26,9 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
 
 
     public ArrayList<orders_model> ordersModelList;
-    public orderListAdapter(ArrayList<orders_model> ordersModelList)
+    public orderListAdapter(ArrayList<orders_model> thislist)
     {
-        this.ordersModelList = ordersModelList;
+        this.ordersModelList=thislist;
     }
 
 
