@@ -78,6 +78,7 @@ public class ItemsActivity extends AppCompatActivity {
 
         Intent intent=getIntent();
         final String orderId=intent.getStringExtra("orderId");
+        status = (long) intent.getIntExtra("status", 0);
         //final int status = intent.getIntExtra("status",0);
 
         orderIdvalue = Integer.parseInt(orderId.replaceAll("[^0-9]",""));
@@ -87,10 +88,11 @@ public class ItemsActivity extends AppCompatActivity {
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mDatabase.child("vendors").child("vendor - "+vid).child("orders").child(orderId).child("otp_seen").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("vendors").child("vendor - "+vid).child("orders").child(orderId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                otp_seen = (Boolean)dataSnapshot.getValue();
+                otp_seen = (Boolean)dataSnapshot.child("otp_seen").getValue();
+                status = (Long)dataSnapshot.child("status").getValue();
             }
 
             @Override
@@ -100,19 +102,21 @@ public class ItemsActivity extends AppCompatActivity {
         });
 
 
-        DatabaseReference mStatus =FirebaseDatabase.getInstance().getReference();
 
-        mStatus.child("vendors").child("vendor - "+vid).child("orders").child(orderId).child("status").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                status = (Long)dataSnapshot.getValue();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        DatabaseReference mStatus =FirebaseDatabase.getInstance().getReference();
+//
+//        mStatus.child("vendors").child("vendor - "+vid).child("orders").child(orderId).child("status").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                status = (Long)dataSnapshot.getValue();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
         //bFinish.setClickable(otp_seen);
@@ -262,6 +266,7 @@ public class ItemsActivity extends AppCompatActivity {
         });
         adapter=new itemListAdapter(nlist);
         recyclerView.setAdapter(adapter);
+        Toast.makeText(ItemsActivity.this,"Status"+status,Toast.LENGTH_LONG).show();
 
        if(status==1)
        {
