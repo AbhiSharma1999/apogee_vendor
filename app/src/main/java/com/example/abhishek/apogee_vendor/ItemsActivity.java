@@ -43,8 +43,7 @@ import static com.example.abhishek.apogee_vendor.MainActivity.namelist;
 
 public class ItemsActivity extends AppCompatActivity {
      private FirebaseDatabase database;
-     ProgressBar items_progressbar = (ProgressBar)findViewById(R.id.items_progressbar);
-     ProgressBar buttons_progressbar = (ProgressBar)findViewById(R.id.buttons_progressbar);
+    ProgressBar buttons_progressbar,items_progressbar;
     // private items_model obj=new items_model();
      public ArrayList<items_model> nlist=new ArrayList<>();
      RecyclerView recyclerView;
@@ -52,14 +51,17 @@ public class ItemsActivity extends AppCompatActivity {
      itemListAdapter adapter;
      int orderIdvalue;
      boolean otp_seen;
-     int status;
+     long status;
      private APIService mAPIService;
     public Button bAccept ,bDecline , bReady ,bFinish;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items);
-        items_progressbar.setVisibility(View.VISIBLE);
+        buttons_progressbar = (ProgressBar)findViewById(R.id.buttons_progressbar);
+        items_progressbar = (ProgressBar)findViewById(R.id.items_progressbar);
+
+       items_progressbar.setVisibility(View.VISIBLE);
 
 
 
@@ -103,7 +105,7 @@ public class ItemsActivity extends AppCompatActivity {
         mStatus.child("vendors").child("vendor - "+vid).child("orders").child(orderId).child("status").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                status = (Integer)dataSnapshot.getValue();
+                status = (Long)dataSnapshot.getValue();
             }
 
             @Override
@@ -329,7 +331,7 @@ public class ItemsActivity extends AppCompatActivity {
 
     }
 
-    public void sendAdvacePost(advance_request_body orderIdvalue , String JWT , final int status)
+    public void sendAdvacePost(advance_request_body orderIdvalue , String JWT , final long status)
     {
         mAPIService.saveadvance_post(orderIdvalue,JWT).enqueue(new Callback<advance_post>() {
             @Override
@@ -382,7 +384,7 @@ public class ItemsActivity extends AppCompatActivity {
         });
     }
 
-    public void sendDeclinePost(decline_request_body orderIdvalue, String JWT, final int status)
+    public void sendDeclinePost(decline_request_body orderIdvalue, String JWT, final long status)
     {
         mAPIService.savedecline_post(orderIdvalue,JWT ).enqueue(new Callback<decline_post>() {
             @Override

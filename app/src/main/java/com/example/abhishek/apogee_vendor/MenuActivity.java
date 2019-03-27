@@ -29,7 +29,7 @@ public class MenuActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     menuAdapter adapter;
     ArrayList<menu_model> menulist=new ArrayList<>();
-    ProgressBar menu_progressbar = (ProgressBar)findViewById(R.id.menu_progressbar);
+    ProgressBar menu_progressbar;
 
   //  Button item_switch;
 
@@ -38,6 +38,7 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+         menu_progressbar= (ProgressBar)findViewById(R.id.menu_progressbar);
 
         if(menulist!=null)
         {
