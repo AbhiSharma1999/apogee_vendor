@@ -24,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-    ProgressBar login_progressbar = (ProgressBar)findViewById(R.id.login_progressbar);
+    ProgressBar login_progressbar;
 
     private APIService mAPIService;
     String JWT="";
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+          login_progressbar = (ProgressBar)findViewById(R.id.login_progressbar);
 
 
         Button button_login ;
