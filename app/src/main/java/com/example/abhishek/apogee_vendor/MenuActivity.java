@@ -102,7 +102,7 @@ public class MenuActivity extends AppCompatActivity {
         database.getReference().child("vendors").child("vendor - "+vid).child("menu").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Toast.makeText(MenuActivity.this, dataSnapshot.toString(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(MenuActivity.this, dataSnapshot.toString(), Toast.LENGTH_SHORT).show();
                 menu_progressbar.setVisibility(View.GONE);
                 menulist.clear();
                 for(DataSnapshot menuItemSnapshot: dataSnapshot.getChildren()) {

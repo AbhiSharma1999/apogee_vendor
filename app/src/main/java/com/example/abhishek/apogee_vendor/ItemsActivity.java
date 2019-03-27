@@ -237,7 +237,7 @@ public class ItemsActivity extends AppCompatActivity {
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     String key =ds.getKey();
                     String item_name="Check again";
-                    Toast.makeText(ItemsActivity.this,namelist.toString(),Toast.LENGTH_LONG).show();
+                   // Toast.makeText(ItemsActivity.this,namelist.toString(),Toast.LENGTH_LONG).show();
                     for(int x=0;x<namelist.size();x++)
                     {
                         static_menu_model list = namelist.get(x);
