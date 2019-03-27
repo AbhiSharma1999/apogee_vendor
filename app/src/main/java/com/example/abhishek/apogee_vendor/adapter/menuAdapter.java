@@ -94,7 +94,7 @@ public class menuAdapter extends RecyclerView.Adapter<menuAdapter.ViewHolder> {
             public void onResponse(Call<toggle_post> call, Response<toggle_post> response) {
                 Log.d("toggleresponse",response.code()+"");
                 response.body();
-                //Toast.makeText(context,"responsecode"+response.code(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"responsecode"+response.code(),Toast.LENGTH_SHORT).show();
                 if(!response.isSuccessful())
                 {
                     view.toggle.setChecked(!b);
@@ -106,6 +106,8 @@ public class menuAdapter extends RecyclerView.Adapter<menuAdapter.ViewHolder> {
 
             @Override
             public void onFailure(Call<toggle_post> call, Throwable t) {
+                view.toggle.setChecked(!b);
+                menlist.clear();
 
             }
         });

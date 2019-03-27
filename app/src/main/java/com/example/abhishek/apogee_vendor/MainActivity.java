@@ -42,7 +42,7 @@ import static com.example.abhishek.apogee_vendor.fragment.ready_fragment.ready_l
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-   ProgressBar main_progressbar ;
+   ProgressBar main_progressbar ;    
 //    public static ArrayList<String> namelist = new ArrayList<>();
     public static ArrayList<static_menu_model> namelist = new ArrayList<>();
     /*static ArrayList<orders_model> finished_declined_list= new ArrayList<>();

@@ -44,6 +44,7 @@ public class MenuActivity extends AppCompatActivity {
         {
             menulist.clear();
         }
+        menu_progressbar = (ProgressBar)findViewById(R.id.menu_progressbar);
         menu_progressbar.setVisibility(View.VISIBLE);
 
      //   item_switch = (Button)findViewById(R.id.switch1);
