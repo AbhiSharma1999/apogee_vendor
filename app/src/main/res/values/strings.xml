@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">apogee_vendor</string>
+    <string name="app_name">VendorApogee</string>
     <string name="status0">Pending</string>
     <string name="status1">Accepted</string>
     <string name="status2">Ready</string>
