@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,21 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
     public ArrayList<orders_model> ordersModelList;
     public orderListAdapter(ArrayList<orders_model> ordersModelList)
     {
+        Log.d("ApogeeLog19", ordersModelList.toString());
+
+        Collections.sort(ordersModelList, new Comparator<orders_model>() {
+            public int compare(orders_model o1, orders_model o2) {
+                if (o1.getOrder_id() == null || o2.getOrder_id() == null)
+                    return 0;
+                return o1.getOrder_id().compareTo(o2.getOrder_id());
+            }
+        });
+
+        Collections.reverse(ordersModelList);
+
         this.ordersModelList=ordersModelList;
+
+
     }
 
 

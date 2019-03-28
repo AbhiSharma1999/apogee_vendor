@@ -8,6 +8,10 @@
         android:id="@+id/earnings"
         android:title="Earning"
         />
+    <item
+        android:title="Contact"
+        android:id="@+id/contact"
+        />
 
     <item
         android:id="@+id/signout"

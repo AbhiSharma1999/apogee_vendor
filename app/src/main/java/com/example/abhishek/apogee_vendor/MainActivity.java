@@ -285,6 +285,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this,TotalActivity.class));
                 break;
             }
+            case R.id.contact:
+            {
+                startActivity(new Intent(MainActivity.this,ContactActivity.class));
+            }
         }
         return true;
 
