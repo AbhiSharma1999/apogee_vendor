@@ -26,9 +26,9 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
 
 
     public ArrayList<orders_model> ordersModelList;
-    public orderListAdapter(ArrayList<orders_model> thislist)
+    public orderListAdapter(ArrayList<orders_model> ordersModelList)
     {
-        this.ordersModelList=thislist;
+        this.ordersModelList=ordersModelList;
     }
 
 
@@ -86,13 +86,15 @@ public class orderListAdapter extends RecyclerView.Adapter<orderListAdapter.View
 
         holder.price.setText("Rs." +ordersModelList.get(position).getPrice());
 
+//       try{
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(holder.mView.getContext() , ItemsActivity.class);
-                intent.putExtra("orderId",ordersModelList.get(position).getOrder_id());
+                               intent.putExtra("orderId",ordersModelList.get(position).getOrder_id());
                 intent.putExtra("status",ordersModelList.get(position).getStatus());
                 intent.putExtra("otp_seen",ordersModelList.get(position).getOtp_seen());
+
                 holder.mView.getContext().startActivity(intent);
 
             }
