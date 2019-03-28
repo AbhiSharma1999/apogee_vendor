@@ -13,7 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 public class ApiUtils {
     private  ApiUtils(){}
-    public  static final String BASE_URL = "http://bits-apogee.org/2019/wallet/";
+    public  static final String BASE_URL = "https://bits-apogee.org/2019/wallet/";
     public static APIService getAPIService(){
         return RetrofitClient.getClient(BASE_URL).create(APIService.class);
 
