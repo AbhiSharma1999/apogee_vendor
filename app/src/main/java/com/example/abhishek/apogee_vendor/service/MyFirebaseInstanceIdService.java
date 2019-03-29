@@ -1,5 +1,6 @@
 package com.example.abhishek.apogee_vendor.service;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -14,13 +15,14 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService {
     @Override
     public void onTokenRefresh() {
         super.onTokenRefresh();
+        Log.d("Test" , "Service called");
  
         //now we will have the token
         String token = FirebaseInstanceId.getInstance().getToken();
-        SharedPreferences preferences = this.getSharedPreferences("Data",MODE_PRIVATE);
+        SharedPreferences preferences = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("reg_token","");
-        editor.commit();
+        editor.putString("fcm",token);
+        editor.apply();
  
         //for now we are displaying the token in the log
         //copy it as this method is called only when the new token is generated

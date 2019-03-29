@@ -250,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onStart() {
+        //startService(new Intent())
         super.onStart();
     }
 
