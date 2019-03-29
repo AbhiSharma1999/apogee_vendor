@@ -66,6 +66,57 @@
       },
       "oauth_client": [
         {
+          "client_id": "765197201085-u9ub1s7b39uquci5h1st78u60gt1t0dd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dvm.bits_apogee19",
+            "certificate_hash": "4fe563e00c0414680c8be6777b471cadfb3b6775"
+          }
+        },
+        {
+          "client_id": "765197201085-j6q594d8v56sfmoq401avvmbthorv21s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZ3JfLdFwH5RiI7YKl1_p_CIW9RWm8ZOA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "765197201085-j7fq878tesgrahfeqpgaqa429o1f061p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "765197201085-rvab6rjoo6881bokn91132819apdcmsk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dvm.apogee"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765197201085:android:71c4cf0c38ed4fa5",
+        "android_client_info": {
+          "package_name": "com.example.abhishek.apogee_vendor"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "765197201085-j6q594d8v56sfmoq401avvmbthorv21s.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -90,9 +141,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:765197201085:android:71c4cf0c38ed4fa5",
+        "mobilesdk_app_id": "1:765197201085:android:c0cac340bec0ad7d",
         "android_client_info": {
-          "package_name": "com.example.abhishek.apogee_vendor"
+          "package_name": "com.vendorapp.abhishek.apogee_vendor"
         }
       },
       "oauth_client": [

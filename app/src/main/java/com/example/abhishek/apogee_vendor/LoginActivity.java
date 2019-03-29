@@ -43,6 +43,9 @@ public class LoginActivity extends AppCompatActivity {
         et_username = (EditText)findViewById(R.id.username);
         String username = et_username.getText().toString().trim();
         String password = et_password.getText().toString().trim();
+        SharedPreferences preferences = this.getSharedPreferences("Data",MODE_PRIVATE);
+        final String reg_token = preferences.getString("reg_token","");
+
 
 
 
@@ -56,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String username = et_username.getText().toString().trim();
                 String password = et_password.getText().toString().trim();
-                final login_request_body request_body = new login_request_body(username,password,"");
+                final login_request_body request_body = new login_request_body(username,password,reg_token);
                 if(username.equals("")||password.equals(""))
                 {
                     Toast.makeText(LoginActivity.this , "username and password cannot be left blank",Toast.LENGTH_SHORT).show();

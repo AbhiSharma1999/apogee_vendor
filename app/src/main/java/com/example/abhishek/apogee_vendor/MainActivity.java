@@ -274,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences sharedPref = this.getSharedPreferences("Data", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("JWT",null);
+                editor.putString("reg_token","");
 
                 editor.commit();
                 startActivity(new Intent(MainActivity.this , LoginActivity.class));
